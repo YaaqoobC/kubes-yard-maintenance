@@ -1,7 +1,7 @@
 # Kube’s Yard Maintenance
 
-Milestone 1.5: a responsive, pre-rendered React homepage and shared layout, with
-useful initial lawn care, snow removal, About, and Contact pages. Static hosting
+Milestone 2: a concise, seasonal React homepage, complete lawn care and snow removal
+pages with approved pricing, and shared About/Contact pages. Static hosting
 only; no runtime server or contact-form backend.
 
 ## Run locally
@@ -67,27 +67,30 @@ to update metadata and crawler files together. No publish is performed by these 
 
 Read [AGENTS.md](AGENTS.md), [design system](docs/design-system.md),
 [architecture](docs/architecture.md), and [content inventory](docs/content-inventory.md).
-Business content is centralized in `app/content/business.ts`. Original source
-rates are provisional and excluded from public pricing. Original pamphlets and
-[transcription](pamphlet-content.md) are retained for owner review.
+Contact and quote actions are centralized in `app/content/business.ts`; approved
+pricing/inclusions/FAQs in `app/content/services.ts`; configurable Edmonton season
+rules in `app/season/season.ts`. The homepage features winter November–March and
+summer April–October, with a manual selector. Theme remains independent. Original
+pamphlets and [transcription](pamphlet-content.md) are retained as source records.
 
 Temporary logos come from the supplied `logos/` package and are copied unchanged
 to `public/brand`. Sync them with `node scripts/sync-brand.mjs`. Swap the supplied
 files and sync them without restructuring sections.
 All visible headings and business names are HTML. No stock or AI imagery is used.
 
-Stop point: Milestone 1.5. Confirm visual direction, actual service boundaries,
-rates/policies, claims, and photography before expanding the remaining pages in
-Milestone 2. See the content inventory for outstanding owner inputs.
+Stop point: Milestone 2. Winter response guarantees, exact service boundaries,
+add-on billing frequency, credentials, and owner/photo material still require
+confirmation. See the content inventory and [Milestone 2 handoff](docs/milestone-2-handoff.md).
+No backend or Milestone 3 work is included.
 
-## Milestone 1.5 review
+## Browser review
 
-See [audit and results](docs/milestone-1.5-audit.md). To reproduce screenshots and
-the 50-case viewport/theme/axe audit, build the site, run `npm run preview --
+Historical [Milestone 1.5 audit](docs/milestone-1.5-audit.md) is preserved.
+To reproduce the 60-case viewport/theme/axe audit and screenshots, build the site, run `npm run preview --
 --port 4174`, then in another terminal:
 
 ```sh
-PLAYWRIGHT_CHANNEL=chrome node scripts/audit-site.mjs http://127.0.0.1:4174 artifacts/milestone-1.5/review
+PLAYWRIGHT_CHANNEL=chrome node scripts/audit-site.mjs http://127.0.0.1:4174 artifacts/milestone-2/review
 ```
 
 Omit `PLAYWRIGHT_CHANNEL=chrome` to use installed Playwright Chromium. Generated

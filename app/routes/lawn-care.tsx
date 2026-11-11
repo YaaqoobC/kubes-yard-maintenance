@@ -1,19 +1,13 @@
-import { seasons } from '../content/business';
+import { lawnCare } from '../content/services';
 import { pageMeta } from '../content/pages';
-import { ServiceOverview } from '../components/ui/service-overview';
-import { ContactCta } from '../components/layout/contact-cta';
+import { ServicePage } from '../components/ui/service-page';
 
 export const meta = () =>
   pageMeta(
     'Lawn & yard care',
-    'Explore lawn mowing, spring cleanup, aeration, and acreage maintenance in the Edmonton area. Contact Kube’s for current pricing.',
+    'Residential mowing, spring cleanup, acreage mowing, and aeration in the Edmonton area. Explore prices and service inclusions from Kube’s.',
     '/lawn-care',
   );
-export default function LawnCare() {
-  return (
-    <>
-      <ServiceOverview season={seasons[0]} />
-      <ContactCta />
-    </>
-  );
+export default function Page() {
+  return <ServicePage service={lawnCare} />;
 }

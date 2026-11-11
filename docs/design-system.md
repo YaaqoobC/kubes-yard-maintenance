@@ -46,9 +46,11 @@ minimum font-size requirement. Captions wrap rather than being clipped.
 Original summer hero artwork is capped at its 263px native width. Service-page
 logos are capped at 246px high; mobile supporting art panels are at most 260px wide.
 
-The composition pairs an editorial headline with an original brand plate, then
-two seasonal panels, an indexed service list, a restrained introduction, and one
-closing contact band. Indexes are service ordering, never business statistics.
+The homepage pairs the existing editorial headline with an original seasonal brand
+plate, two concise service panels, a short introduction, and one closing contact
+band. Detailed pricing lives on service pages as editorial rows with section
+headings, short inclusion lists, notes, and native disclosure FAQs. Avoid repeated
+pricing cards and wide tables.
 Avoid repeated floating cards, shadows, gradients, stock-photo filler, and pill styling.
 
 ## Spacing and responsiveness
@@ -58,7 +60,8 @@ Base spacing rhythm: 4, 8, 12, 16, 24, 32, 48, 64px. Section spacing scales from
 24px below 800, 20px below 600. Breakpoints follow content requirements.
 
 Header navigation becomes an expandable menu at 800px; it supports Escape and
-returns focus to its trigger. Hero and services stack at 600px. Both seasonal
+returns focus to its trigger. The theme selector belongs inside the expanded
+mobile menu; the compact header contains only the brand and hamburger. Hero and services stack at 600px. Both seasonal
 panels always appear. Avoid fixed content heights and do not mask overflow.
 The menu resets on every history entry, including brand links and Back/Forward.
 Client route changes focus the main landmark without overriding scroll restoration.
@@ -72,5 +75,41 @@ real destinations. Primary actions, theme select, and menu trigger have at least
 Use one h1, labelled sections, descriptive accessible names, native controls, and
 decorative SVGs hidden from assistive technology. Body contact details stay selectable.
 
-CSS transitions are limited to color and 3px arrow movement at 180ms. No animation
+CSS transitions are limited to color, 3px arrow movement, and the hamburger
+transform/opacity at 180ms. No animation
 library. `prefers-reduced-motion: reduce` removes transitions and smooth scrolling.
+
+## Milestone 2 seasonal tokens
+
+Season and appearance remain independent. Summer uses the existing evergreen,
+pine, sage, and ivory anchors. Winter adds midnight `#10172C`, navy `#16243A`,
+slate `#607C92`, ice `#C8E1F2`, and restrained orange `#E5814F` (dark focus ring).
+All anchors and semantic overrides live in `app/styles/app.css`; components never
+scatter seasonal hex values. The original logos retain their source colors.
+
+| Winter semantic role    | Light     | Dark         |
+| ----------------------- | --------- | ------------ |
+| Canvas / header         | Ivory     | Midnight     |
+| Raised surface          | `#E8EDF1` | Navy         |
+| Primary text            | Midnight  | Ivory        |
+| Secondary text          | `#4D6072` | `#B4C6D5`    |
+| Accent / primary action | Navy      | Ice          |
+| Border                  | `#CBD4DC` | `#405367`    |
+| Contact band            | Navy      | Navy         |
+| Band secondary text     | Ice       | Ice          |
+| Focus                   | `#90502E` | Muted orange |
+
+`body[data-page='winter']` applies winter identity throughout the snow route,
+including header/contact band/footer. On home, `html[data-featured-season]`
+selects the same overrides and the featured logo/link. Summer and winter panels
+retain their own surfaces to show both offerings. About and Contact keep shared
+evergreen identity. No winter green bands, weather effects, or fake imagery.
+
+The homepage logo frame reserves height for either original emblem before hydration;
+manual season buttons use native pressed state and a minimum 44px height. The
+header stays in flow with `position: sticky; top: 0`, solid semantic background,
+stacking level 30, and a thin full-width border. Scroll padding is 128px desktop /
+112px mobile, exceeding the 106px / 88px (84px narrow) header. Expanded navigation
+is nonmodal and scrollable on short screens. Reduced motion removes the hamburger
+transition as well as other motion. Keep pricing and FAQs readable without horizontal
+scrolling; at narrow widths price moves below its label.

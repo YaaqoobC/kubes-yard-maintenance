@@ -13,9 +13,9 @@ export function Introduction() {
           </h2>
           <div className="intro-detail">
             <p>
-              Call or email Kube’s directly with your address and the work you
-              need. We’ll discuss service availability, what’s included, and
-              current pricing before you arrange service.
+              Kube’s Yard Maintenance offers lawn care and snow removal in the
+              Edmonton area. Speak with us directly about your property, the
+              work you need, and service availability.
             </p>
             <ActionLink href="/about" variant="text">
               A little about Kube’s

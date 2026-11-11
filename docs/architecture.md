@@ -12,14 +12,15 @@ app/
   routes/                     Page metadata and composition
   components/
     layout/                   Header, brand, footer, closing contact band
-    ui/                       Action link, arrow, initial service overview
+    ui/                       Action link, seasonal hero, pricing, service page
     home/                     Homepage sections
-  content/                    Typed facts, provisional source rates, metadata helper
+  content/                    Typed business facts, approved prices, metadata helper
+  season/                     Edmonton date rule, head bootstrap, manual switcher
   theme/                      Preference logic and native select
   styles/app.css              Tailwind import, semantic tokens, component styles
 public/brand/                 Supplied original-source PNG assets
 panflits/                     Unmodified original pamphlets
-scripts/                      Copies supplied logos to public assets
+scripts/                      Brand copy, static finalizer, browser audit
 tests/                        Browser, static rendering, accessibility checks
 docs/                         Design, architecture, content inventory
 pamphlet-content.md           Source transcription and provenance
@@ -50,7 +51,7 @@ document. Test direct visits and reloads after deployment.
 `netlify.toml` declares the static build command, `build/client` publish directory,
 and Node 24. `public/_headers` sets immutable year-long caching only for hashed
 files under `/assets/`. Logos and documents keep normal revalidation behavior.
-These configurations are prepared locally; Milestone 1.5 does not publish them.
+Milestone work prepares local artifacts; deployment remains a separate owner action.
 
 Vite preview serves the static build for QA, not as a production runtime. Its
 separate `vite.preview.config.ts` uses `appType: mpa` so clean paths resolve to
@@ -73,10 +74,13 @@ Official references consulted during setup:
 - `Brand` renders live HTML lettering beside the replaceable summer emblem.
   The source wordmark raster is retained for reference; no heading or pricing is
   rendered from it. Winter's supplied badge necessarily includes its original lettering.
-- All facts, links, service lists, and source rates live in typed content. Source
-  rates are not imported by public rendering. Public pages request current quotes.
-- The four supporting routes intentionally contain only useful initial content;
-  homepage and shared layout are the completed Milestone 1 scope.
+- Business contact details and quote action live in `business.ts`. Approved pricing,
+  units, limits, inclusions, notes, and FAQs live in `services.ts`. `ServicePage`,
+  `SeasonalHero`, and `ServicePricing` compose both seasonal routes without duplicating
+  amounts in JSX. The owner approved public pricing in the Milestone 2 brief.
+- The homepage contains hero, two concise service choices, introduction, and contact
+  band. Detailed inclusions, pricing, and FAQs live on the corresponding service route.
+  About contains verified facts only; Contact uses phone/email and quote guidance.
 - Fonts are local. No imagery service, analytics, tracking, CMS, backend, or fake form.
 - CSS provides all transitions. Tailwind v4 is integrated through its Vite plugin;
   semantic component CSS handles editorial compositions alongside utility primitives.
@@ -90,18 +94,50 @@ Official references consulted during setup:
 - `RouteFocus` restores keyboard context to main after pathname changes. Header
   menu state is reset during rendering when the router history key changes, keeping
   theme controls mounted and avoiding a stale expanded menu on Back or logo navigation.
-- `scripts/audit-site.mjs` captures the 50-case responsive/axe matrix and 20
-  desktop/mobile screenshots. Generated evidence is ignored under `artifacts/`;
-  the findings and commands are retained in `docs/milestone-1.5-audit.md`.
+- `scripts/audit-site.mjs` captures a 60-case responsive/axe matrix (five routes plus a summer-home variant,
+  five widths, two themes), 24 desktop/mobile page screenshots, and two expanded-menu screenshots. Generated evidence is ignored under `artifacts/`;
+  historical findings remain in `docs/milestone-1.5-audit.md`, with current results in `docs/milestone-2-handoff.md`.
 
-## Milestone 2
+## Season and appearance architecture
 
-Review visual direction with the owner, confirm rates, snow thresholds/response
-policy, insurance/ownership wording, service boundaries, and original photograph
-provenance. Expand service pages and About using approved details. Confirm
-any future custom domain before replacing the current Netlify origin. Domain
-changes must update canonical and crawler output together. A hosted contact form
-is a separate future scope decision. Keep service-page expansion for Milestone 2.
+`app/season/season.ts` centralizes `America/Edmonton` and winter months November–March.
+April–October features summer. `seasonForDate` is pure and configurable. The head
+bootstrap serializes the same function with its configuration, so client and test
+rules cannot drift. It reads the visitor's current date before styles paint, never
+the build date, weather, browser timezone, geolocation, or a network API.
+
+Static HTML always contains both homepage variants and one shared h1. CSS driven
+by `html[data-featured-season]` exposes the selected logo and primary service link.
+The logo frame has stable dimensions across both seasons. Hydration renders the same
+markup as the build; React does not replace a guessed build-time seasonal subtree.
+`SeasonSwitcher` uses `useSyncExternalStore` only for `aria-pressed`, with a null
+server snapshot; the pre-paint CSS controls the initial visual state. A manual
+choice updates the document attribute and an event, remains for client navigation,
+and resets to the date rule on a full reload. No persistent season preference hides
+current seasonal emphasis. Both service destinations remain available year-round.
+With JavaScript fully disabled, CSS falls back to summer and both service links work.
+
+`body[data-page]` identifies home/summer/winter/shared using the route pathname.
+Winter and a winter-featured homepage override semantic color tokens. Shared About
+and Contact retain the evergreen brand. `html[data-theme]` separately controls
+light/dark appearance and persists via the existing theme storage/bootstrap.
+No duplicated seasonal theme system or new dependencies are introduced.
+
+The header is sticky in document flow. Desktop links and tools share one nav; at
+800px and below it expands below the header, with bounded viewport height/scrolling.
+The single theme control moves with CSS into that menu, preserving its state.
+A CSS three-line hamburger transforms into an X. The nonmodal disclosure supports
+Escape to its trigger, closes on focus leaving the header and on every history
+entry, and retains native Tab order. Route navigation focuses main. Root scroll
+padding accounts for the sticky header, including fragment links and skip links.
+
+## Milestone boundary
+
+Milestone 2 completes both service pages, season behavior, navigation, and shared
+page refinement. No backend, CMS, database, deployment, or Milestone 3 features.
+Confirm winter response terms, credentials, exact service boundaries, add-on billing,
+and owner/photo material before adding claims. Future approved domain changes must
+update `site.json` so canonical and crawler output change together.
 
 Hosting references: [Netlify custom 404 handling](https://docs.netlify.com/manage/routing/redirects/redirect-options/#custom-404-page-handling),
 [Netlify custom headers](https://docs.netlify.com/manage/routing/headers/).

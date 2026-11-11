@@ -33,6 +33,21 @@ export default function Contact() {
           <Arrow diagonal />
         </a>
       </div>
+      <section className="quote-guide" aria-labelledby="quote-guide-heading">
+        <h2 id="quote-guide-heading">A few details help us quote.</h2>
+        <ul>
+          <li>Your address or neighbourhood in the Edmonton area.</li>
+          <li>The service you need and your preferred schedule.</li>
+          <li>
+            Approximate lawn or driveway size, plus any special requirements.
+          </li>
+        </ul>
+        <p>
+          For snow removal, mention corner properties and ice melt. For yard
+          care, mention bagging or haul-away needs. We’ll confirm the work and
+          final quote directly.
+        </p>
+      </section>
       <p className="page-note">
         {business.area}. {business.areaNote}
       </p>

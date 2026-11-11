@@ -1,62 +1,77 @@
 # Content inventory
 
-## Supplied and usable
+## Verified and authorized for Milestone 2
+
+The owner's Milestone 2 brief approves the following pamphlet prices and inclusions
+for public use. This supersedes the Milestone 1.5 provisional-pricing restriction.
+The original transcription remains a source record in `pamphlet-content.md`.
+The typed, public source of truth is `app/content/services.ts`; amounts and units
+are structured data. Do not copy prices into route JSX.
 
 - Business: Kube’s Yard Maintenance; phone 780-919-8240; email kubesym@gmail.com.
-- User-supplied target market: Edmonton area, Alberta. Exact boundaries unconfirmed.
-- Four original pamphlets in `panflits/`; transcription in `pamphlet-content.md`.
-- Source-backed service categories: residential one-time, weekly and bi-weekly
-  mowing/trimming; spring cleanup, power raking, rock bed blowout, debris bagging,
-  aeration, leaf cleanup, acreage mowing, and snow removal for driveway, sidewalk,
-  main entrance steps. Seasonal and call-out snow options are source-backed, but
-  their availability and terms must be confirmed directly.
-- Supplied original-source logos under `logos/`, copied byte-for-byte to
-  `public/brand/`. No generation, retouching, or recoloring. The wordmark-source
-  raster is a reference asset; visible business lettering remains HTML.
+- Market: Edmonton area, Alberta. Exact address boundaries require direct confirmation.
+- Original logos: supplied `logos/`, copied byte-for-byte to `public/brand/`.
+- All quoted dollar amounts follow the owner's supplied notation; taxes and price
+  effective dates were not supplied. No tax-inclusive or fixed-duration claim is made.
 
-## Provisional rates — owner approval required
+| Service                           | Approved price | Included / limits                                                         |
+| --------------------------------- | -------------- | ------------------------------------------------------------------------- |
+| One-time cut                      | $60            | No property-size limit supplied for this option                           |
+| Weekly mowing                     | $175/month     | Up to 3,000 sq ft, cut and trim, front/back, weekly visits, no bagging    |
+| Bi-weekly mowing                  | $100/month     | Up to 3,000 sq ft, cut and trim, front/back, bi-weekly visits, no bagging |
+| Residential spring cleanup        | $150           | Up to 3,000 sq ft                                                         |
+| Commercial/acreage spring cleanup | $250           | Up to 6,000 sq ft; larger: custom quote                                   |
+| Acreage cutting/trimming          | $60/hour       | Approximately 1–2 hours per acre; double cuts may cost extra              |
+| Acreage bagging                   | $15/bag        | $20/bag with haul-away                                                    |
+| Aeration                          | $75            | Up to and including 3,000 sq ft                                           |
+| Aeration                          | $100           | Over 3,000 through 6,000 sq ft                                            |
+| Aeration                          | $125           | Over 6,000 through 9,000 sq ft                                            |
+| Aeration                          | Custom quote   | Over 9,000 sq ft                                                          |
+| Leaf yard cleanup                 | $50/hour       | Other items quoted; bagged material left on driveway unless discussed     |
+| Rock bed blowout                  | $50/hour       | Discuss property needs directly                                           |
+| Monthly snow removal              | $150/month     | Front driveway, sidewalk, main entrance steps                             |
+| One-time snow removal             | $50/hour       | Driveway, sidewalk, main entrance steps                                   |
+| Corner house add-on               | +$30           | Billing frequency to confirm                                              |
+| Ice melt add-on                   | +$65           | Billing frequency to confirm                                              |
 
-| Source item                           | Advertised amount                              |
-| ------------------------------------- | ---------------------------------------------- |
-| One-time cut                          | $60                                            |
-| Weekly / bi-weekly residential mowing | $175 / $100 per month                          |
-| Residential spring cleanup            | $150, up to 3,000 sq ft                        |
-| Commercial/acreage spring cleanup     | $250, up to 6,000 sq ft                        |
-| Aeration                              | $75 / $100 / $125 by area; larger custom quote |
-| Leaf cleanup / rock bed blowout       | $50/hour                                       |
-| Acreage weekly mowing                 | $60/hour                                       |
-| Bagging / with haul away              | $15 / $20 per bag                              |
-| Snow monthly service                  | $150/month                                     |
-| Corner house / ice melt add-ons       | +$30 / +$65; billing basis unconfirmed         |
-| No-contract snow call-out             | $50/hour                                       |
+Both spring cleanup packages include first mow/trim, power raking, rock bed blowout,
+and debris bagging. Aeration tier endpoints resolve the pamphlet's overlapping
+ranges as required by the Milestone 2 brief: the lower tier includes its upper bound.
+The public winter page explicitly asks visitors to confirm how often add-on charges
+apply, rather than inventing per-visit or monthly units.
 
-Inclusions, limits, and source filenames are also recorded in the typed
-`provisionalRates` inventory. **None of these amounts are published as current
-website pricing.** Public copy requests a current quote. Confirm taxes, date of
-effect, property limits, visit frequency, billing basis, add-ons, and availability.
+## Policies and claims still requiring confirmation
 
-## Policies and claims requiring confirmation
+The original winter pamphlet states:
 
-- Removal within 24 hours after snowfall over 0.5 cm; daily storm returns. These
-  remain in source documentation and are not public website promises.
-- Yard waste left bagged on the driveway, haul-away terms, double-cut surcharges,
-  acreage time estimates, and overlapping aeration size boundaries.
-- “Insured” and “Locally Owned” from the winter pamphlet. No credential, named
-  owner biography, ownership structure, or insured status is asserted on the site.
-- No business age, staffing size, response guarantee, review score, testimonial,
-  project counts, or certification was supplied or invented.
+- Snow removal within 24 hours following snowfall over 0.5 cm.
+- Daily return visits during multi-day storms.
 
-## Photography and remaining inputs
+Keep these in this inventory and the transcription only until confirmed as binding
+service terms. Public copy directs visitors to discuss scheduling, snowfall
+conditions, and return visits directly. Do not invent alternate thresholds.
 
-Pamphlet photos include apparent composites and scenes with unknown provenance.
-They are not treated as authentic portfolio work or extracted for the site.
-Request owner-approved original work photos, permissions for any portraits, and
-captions identifying actual jobs before introducing photography.
+“Insured” and “Locally Owned” appear in the winter pamphlet but remain unpublished
+as credentials. No owner biography, company age, experience duration, staffing,
+certification, response guarantee, reviews, or testimonials have been verified.
+Exact service boundaries, taxes, effective dates, add-on billing frequency,
+and double-cut surcharge amounts remain outstanding.
 
-Need confirmation: exact service area, approved current pricing and operating
-policies, owner introduction, preferred official apostrophe/brand spelling,
-whether summer and winter badge designs should be unified, final logo masters,
-any future custom domain. The supplied live deployment is now known to be
-`https://kubes-yard-maintenance.netlify.app`; this is the canonical origin for
-Milestone 1.5. No backend or quote form is included. “Request a quote” leads to
-the contact page's real phone and email choices, not a submission or price promise.
+## Photography, About, and contact
+
+Pamphlet photos have unknown provenance and include apparent composites. They are
+not extracted for the website or represented as completed jobs. No stock or generated
+imagery is used. Obtain authentic owner/equipment photos, consent, and job captions
+before publishing them.
+
+About uses verified service/location facts in an introduction and a separate seasonal
+services section. A real owner introduction, business story, and authentic photography
+can extend this structure later; no placeholder biography is published.
+
+Contact provides functional phone/email links, area confirmation, and quote instructions:
+address, service, schedule, size, and special requirements. No submission form or backend.
+The canonical origin remains `https://kubes-yard-maintenance.netlify.app`.
+
+Original asset/source filenames and pamphlet wording remain in
+[the source transcription](../pamphlet-content.md). Brand spelling, future domain,
+final logo masters, and additional owner material may be confirmed later.

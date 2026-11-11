@@ -1,7 +1,9 @@
 # Pamphlet transcription
 
 Transcribed from the four original PNGs in `panflits/`. These are source records,
-not verified current rates or promises. All amounts are in the pamphlets' dollar
+original advertised rates and policies. The owner’s Milestone 2 brief now approves
+the listed prices/inclusions for public use (see `docs/content-inventory.md`);
+winter response guarantees and credential claims remain unconfirmed. All amounts are in the pamphlets' dollar
 notation; taxes, dates, availability, and billing terms are not stated.
 
 ## Contact (all pamphlets)

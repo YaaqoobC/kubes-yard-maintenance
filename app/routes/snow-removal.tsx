@@ -1,19 +1,13 @@
-import { seasons } from '../content/business';
+import { snowRemoval } from '../content/services';
 import { pageMeta } from '../content/pages';
-import { ServiceOverview } from '../components/ui/service-overview';
-import { ContactCta } from '../components/layout/contact-cta';
+import { ServicePage } from '../components/ui/service-page';
 
 export const meta = () =>
   pageMeta(
     'Snow removal',
-    'Snow removal for driveways, sidewalks, and main entrance steps in the Edmonton area. Ask Kube’s about seasonal and call-out options.',
+    'Monthly snow removal and one-time call-outs in the Edmonton area. Explore pricing for driveway, sidewalk, and main entrance step clearing.',
     '/snow-removal',
   );
-export default function SnowRemoval() {
-  return (
-    <>
-      <ServiceOverview season={seasons[1]} />
-      <ContactCta />
-    </>
-  );
+export default function Page() {
+  return <ServicePage service={snowRemoval} />;
 }

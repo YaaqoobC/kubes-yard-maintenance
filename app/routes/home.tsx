@@ -1,6 +1,5 @@
 import { Hero } from '../components/home/hero';
 import { SeasonsSection } from '../components/home/seasons-section';
-import { SelectedServices } from '../components/home/selected-services';
 import { Introduction } from '../components/home/introduction';
 import { ContactCta } from '../components/layout/contact-cta';
 import { business } from '../content/business';
@@ -18,7 +17,6 @@ export default function Home() {
     <>
       <Hero />
       <SeasonsSection />
-      <SelectedServices />
       <Introduction />
       <ContactCta />
     </>

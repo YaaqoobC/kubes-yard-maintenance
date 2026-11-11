@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteError,
+  useLocation,
 } from 'react-router';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/dm-sans';
@@ -14,23 +15,35 @@ import './styles/app.css';
 import { Header } from './components/layout/header';
 import { Footer } from './components/layout/footer';
 import { themeScript } from './theme/theme';
+import { seasonScript } from './season/season';
 import { ActionLink } from './components/ui/action-link';
 import { RouteFocus } from './components/layout/route-focus';
 import { NotFound } from './components/ui/not-found';
 
 export function Layout({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
+  const page =
+    pathname.replace(/\/$/, '') === '/snow-removal'
+      ? 'winter'
+      : pathname.replace(/\/$/, '') === '/lawn-care'
+        ? 'summer'
+        : pathname === '/'
+          ? 'home'
+          : 'shared';
   return (
     <html lang="en-CA" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="light dark" />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          dangerouslySetInnerHTML={{ __html: themeScript + seasonScript }}
+        />
         <Meta />
         <Links />
         <link rel="icon" href="/brand/summer-logo.png" type="image/png" />
       </head>
-      <body id="top">
+      <body id="top" data-page={page}>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

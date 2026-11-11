@@ -1,11 +1,17 @@
 import { useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
-import { business, navigation } from '../../content/business';
+import { navigation, quoteAction } from '../../content/business';
 import { ThemeControl } from '../../theme/theme-control';
 import { Brand } from './brand';
 
 export function Header() {
-  const { key } = useLocation();
+  const { key, pathname } = useLocation();
+  const brandSeason =
+    pathname.replace(/\/$/, '') === '/snow-removal'
+      ? 'winter'
+      : pathname === '/'
+        ? 'featured'
+        : 'summer';
   const [menu, setMenu] = useState({ locationKey: key, open: false });
   const menuButton = useRef<HTMLButtonElement>(null);
   // Reset before rendering a new history entry, including brand links and Back.
@@ -17,6 +23,13 @@ export function Header() {
   return (
     <header
       className="site-header"
+      onBlur={(event) => {
+        if (
+          event.relatedTarget instanceof Node &&
+          !event.currentTarget.contains(event.relatedTarget)
+        )
+          setOpen(false);
+      }}
       onKeyDown={(event) => {
         if (event.key === 'Escape' && open) {
           setOpen(false);
@@ -25,7 +38,7 @@ export function Header() {
       }}
     >
       <div className="container header-inner">
-        <Brand />
+        <Brand season={brandSeason} />
         <button
           className="menu-toggle"
           ref={menuButton}
@@ -33,30 +46,40 @@ export function Header() {
           aria-controls="primary-navigation"
           onClick={() => setOpen(!open)}
         >
-          {open ? 'Close' : 'Menu'}
-          <span aria-hidden="true">{open ? '−' : '+'}</span>
+          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+          <span className="hamburger" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
         </button>
         <nav
           id="primary-navigation"
           aria-label="Main navigation"
           className={`main-nav ${open ? 'is-open' : ''}`}
         >
-          {navigation.map((item) => (
+          <div className="nav-links">
+            {navigation.map((item) => (
+              <NavLink
+                key={item.href}
+                to={item.href}
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+          <div className="header-tools">
+            <ThemeControl />
             <NavLink
-              key={item.href}
-              to={item.href}
+              className="header-quote"
+              to={quoteAction.href}
               onClick={() => setOpen(false)}
             >
-              {item.label}
+              {quoteAction.label} <span aria-hidden="true">↗</span>
             </NavLink>
-          ))}
+          </div>
         </nav>
-        <div className="header-tools">
-          <ThemeControl />
-          <a className="header-call" href={business.phoneHref}>
-            Call us <span aria-hidden="true">↗</span>
-          </a>
-        </div>
       </div>
     </header>
   );

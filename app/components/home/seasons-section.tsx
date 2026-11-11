@@ -11,16 +11,11 @@ export function SeasonsSection() {
       <div className="container">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Two seasons. One familiar name.</p>
-            <h2 id="seasons-heading">
-              Lawn care to
-              <br />
-              snow removal.
-            </h2>
+            <p className="eyebrow">Available to explore year-round</p>
+            <h2 id="seasons-heading">Find your service.</h2>
           </div>
           <p>
-            Explore both services year-round. Call or email to confirm
-            availability and current pricing for your property.
+            Service details, clear pricing, and a direct way to request a quote.
           </p>
         </div>
         <div className="season-grid">
@@ -29,25 +24,13 @@ export function SeasonsSection() {
               className={`season-panel season-panel--${season.id}`}
               key={season.id}
             >
-              <div className="season-panel-top">
-                <span className="eyebrow">{season.label}</span>
-                <span className="season-symbol" aria-hidden="true">
-                  {season.id === 'summer' ? '☀' : '❄'}
-                </span>
-              </div>
-              <h3>
-                {season.title.split('\n').map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </h3>
+              <p className="eyebrow">{season.label}</p>
+              <h3>{season.title}</h3>
               <p>{season.description}</p>
-              <ul>
-                {season.offerings.map((offering) => (
-                  <li key={offering}>{offering}</li>
-                ))}
-              </ul>
               <ActionLink href={season.href} variant="text">
-                {season.linkLabel}
+                {season.id === 'summer'
+                  ? 'Lawn care details & pricing'
+                  : 'Snow removal details & pricing'}
               </ActionLink>
             </article>
           ))}
