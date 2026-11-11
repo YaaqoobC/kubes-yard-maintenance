@@ -1,0 +1,54 @@
+import { useRef, useState } from 'react';
+import { NavLink } from 'react-router';
+import { business, navigation } from '../../content/business';
+import { ThemeControl } from '../../theme/theme-control';
+import { Brand } from './brand';
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+
+  return (
+    <header
+      className="site-header"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && open) {
+          setOpen(false);
+          menuButton.current?.focus();
+        }
+      }}
+    >
+      <div className="container header-inner">
+        <Brand />
+        <button
+          className="menu-toggle"
+          ref={menuButton}
+          aria-expanded={open}
+          aria-controls="primary-navigation"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? 'Close' : 'Menu'}
+          <span aria-hidden="true">{open ? '−' : '+'}</span>
+        </button>
+        <nav
+          id="primary-navigation"
+          onClick={() => setOpen(false)}
+          aria-label="Main navigation"
+          className={`main-nav ${open ? 'is-open' : ''}`}
+        >
+          {navigation.map((item) => (
+            <NavLink key={item.href} to={item.href}>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+        <div className="header-tools">
+          <ThemeControl />
+          <a className="header-call" href={business.phoneHref}>
+            Let’s talk <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
