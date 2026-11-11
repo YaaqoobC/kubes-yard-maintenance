@@ -1,29 +1,65 @@
-import { useEffect, useRef, useState } from 'react';
-import { isThemePreference, themeKey, type ThemePreference } from './theme';
+import { useEffect, useId, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
+import {
+  applyThemePreference,
+  isThemePreference,
+  themeKey,
+  type ThemePreference,
+} from './theme';
+import { ThemeIcon } from './theme-icon';
 
 export function ThemeControl() {
   const [preference, setPreference] = useState<ThemePreference>('system');
   const currentPreference = useRef<ThemePreference>('system');
+  const [effective, setEffective] = useState<'light' | 'dark'>('light');
+  const { key } = useLocation();
+  const [menu, setMenu] = useState({ key, open: false });
+  if (menu.key !== key) setMenu({ key, open: false });
+  const open = menu.key === key && menu.open;
+  const wrapper = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const options = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const close = () => setMenu({ key, open: false });
+
+  useEffect(() => {
+    const outside = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !wrapper.current?.contains(event.target)
+      )
+        setMenu({ key, open: false });
+    };
+    const media = matchMedia('(max-width: 800px)');
+    const resized = () => setMenu({ key, open: false });
+    document.addEventListener('pointerdown', outside);
+    media.addEventListener('change', resized);
+    return () => {
+      document.removeEventListener('pointerdown', outside);
+      media.removeEventListener('change', resized);
+    };
+  }, [key]);
+
+  useEffect(() => {
+    if (open)
+      options.current
+        ?.querySelector<HTMLButtonElement>('[aria-checked="true"]')
+        ?.focus();
+  }, [open]);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const apply = (value: ThemePreference) => {
-      const dark = value === 'dark' || (value === 'system' && media.matches);
-      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
-    };
     const read = () => {
       let value: ThemePreference = 'system';
       try {
         const stored = localStorage.getItem(themeKey);
         if (isThemePreference(stored)) value = stored;
       } catch {
-        // Preserve this visit's choice when storage is blocked and the OS changes.
         value = currentPreference.current;
       }
       currentPreference.current = value;
       setPreference(value);
-      apply(value);
+      setEffective(applyThemePreference(value));
     };
     read();
     media.addEventListener('change', read);
@@ -40,43 +76,109 @@ export function ThemeControl() {
     try {
       localStorage.setItem(themeKey, value);
     } catch {
-      /* Preference still works for this visit. */
+      /* Visit-local preference still works. */
     }
-    const dark =
-      value === 'dark' ||
-      (value === 'system' &&
-        matchMedia('(prefers-color-scheme: dark)').matches);
-    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    setEffective(applyThemePreference(value));
+    if (matchMedia('(min-width: 801px)').matches) {
+      close();
+      trigger.current?.focus();
+    }
   }
 
   return (
-    <label className="theme-control">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 4v16" />
-        <path d="M12 4a8 8 0 0 1 0 16" fill="currentColor" />
-      </svg>
-      <span className="sr-only">Color theme</span>
-      <select
-        value={preference}
-        onChange={(event) => {
-          const value = event.target.value;
-          if (isThemePreference(value)) change(value);
+    <div
+      className="theme-control"
+      ref={wrapper}
+      onBlur={(event) => {
+        if (
+          event.relatedTarget instanceof Node &&
+          !event.currentTarget.contains(event.relatedTarget)
+        )
+          close();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && open) {
+          event.stopPropagation();
+          close();
+          trigger.current?.focus();
+        }
+      }}
+    >
+      <button
+        className="theme-trigger"
+        type="button"
+        ref={trigger}
+        aria-label="Choose color theme"
+        aria-describedby={`${id}-description`}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={`${id}-options`}
+        onClick={() => setMenu({ key, open: !open })}
+        onKeyDown={(event) => {
+          if (['ArrowDown', 'ArrowUp'].includes(event.key)) {
+            event.preventDefault();
+            setMenu({ key, open: true });
+          }
         }}
       >
-        <option value="system">System</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
+        <ThemeIcon kind="light" className="theme-effective-light" />
+        <ThemeIcon kind="dark" className="theme-effective-dark" />
+      </button>
+      <span id={`${id}-description`} className="sr-only">
+        Current appearance: {effective}. Preference: {preference}.
+      </span>
+      <div
+        className={`theme-options ${open ? 'is-open' : ''}`}
+        id={`${id}-options`}
+        ref={options}
+        role="menu"
+        aria-label="Color theme"
+        onKeyDown={(event) => {
+          const keys = [
+            'ArrowDown',
+            'ArrowUp',
+            'ArrowLeft',
+            'ArrowRight',
+            'Home',
+            'End',
+          ];
+          if (!keys.includes(event.key)) return;
+          event.preventDefault();
+          const items = Array.from(
+            event.currentTarget.querySelectorAll<HTMLButtonElement>('button'),
+          );
+          const index = items.indexOf(
+            document.activeElement as HTMLButtonElement,
+          );
+          const next =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? items.length - 1
+                : (index +
+                    (['ArrowUp', 'ArrowLeft'].includes(event.key) ? -1 : 1) +
+                    items.length) %
+                  items.length;
+          items[next]?.focus();
+        }}
+      >
+        {(['light', 'dark', 'system'] as const).map((value) => (
+          <button
+            type="button"
+            role="menuitemradio"
+            aria-checked={preference === value}
+            tabIndex={preference === value ? 0 : -1}
+            key={value}
+            onClick={() => change(value)}
+          >
+            <ThemeIcon kind={value} />
+            <span>{value.charAt(0).toUpperCase() + value.slice(1)}</span>
+            <span className="theme-check" aria-hidden="true">
+              {preference === value ? '✓' : ''}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

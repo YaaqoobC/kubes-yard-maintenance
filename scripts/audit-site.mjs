@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const baseURL = process.argv[2] ?? 'http://127.0.0.1:4174';
-const output = process.argv[3] ?? 'artifacts/milestone-2/audit';
+const output = process.argv[3] ?? 'artifacts/milestone-2.1/audit';
 const routes = ['/', '/lawn-care', '/snow-removal', '/about', '/contact'];
 const cases = [
   ...routes.map((route) => ({
@@ -43,6 +43,9 @@ try {
           window.scrollTo({ top: 0, behavior: 'instant' }),
         );
         const measurements = await page.evaluate(() => ({
+          favicons: [...document.querySelectorAll('link[rel=icon]')].map(
+            (icon) => icon.getAttribute('href'),
+          ),
           featuredSeason: document.documentElement.dataset.featuredSeason,
           scrollWidth: document.documentElement.scrollWidth,
           viewport: innerWidth,
@@ -69,7 +72,7 @@ try {
             })),
           primaryActions: [
             ...document.querySelectorAll(
-              '.action-link--primary, .menu-toggle, select',
+              '.action-link--primary, .menu-toggle, .theme-trigger, [role=menuitemradio]',
             ),
           ]
             .filter((element) => element.getClientRects().length)
@@ -146,6 +149,22 @@ try {
       path: `${output}/menu-375-${theme}.png`,
       animations: 'disabled',
     });
+    const desktop = await context.newPage();
+    await desktop.setViewportSize({ width: 1440, height: 1000 });
+    await desktop.clock.setFixedTime(new Date('2026-11-15T12:00:00Z'));
+    await desktop.goto(`${baseURL}/snow-removal`);
+    await desktop.evaluate(() => document.fonts.ready);
+    await desktop.getByRole('button', { name: 'Choose color theme' }).click();
+    report.interactions[`desktopThemeAxe-${theme}`] = (
+      await new AxeBuilder({ page: desktop })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+        .analyze()
+    ).violations;
+    await desktop.screenshot({
+      path: `${output}/theme-menu-1440-${theme}.png`,
+      animations: 'disabled',
+    });
+    await desktop.close();
     await context.close();
   }
   const context = await browser.newContext({
@@ -202,14 +221,19 @@ const captures = report.cases
     file: item.screenshot,
     label: `${item.route === '/' ? `Home · ${item.feature}` : item.route} · ${item.width}px · ${item.theme}`,
   }));
-for (const theme of ['light', 'dark'])
+for (const theme of ['light', 'dark']) {
   captures.push({
     file: `menu-375-${theme}.png`,
     label: `Expanded menu · 375px · ${theme}`,
   });
+  captures.push({
+    file: `theme-menu-1440-${theme}.png`,
+    label: `Desktop appearance menu · 1440px · ${theme}`,
+  });
+}
 await writeFile(
   `${output}/gallery.html`,
-  `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kube’s Milestone 2 screenshots</title><style>body{font:16px/1.6 system-ui;background:#f6f5ef;color:#10291f;margin:32px}h1{font-size:28px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}figure{margin:0;padding:16px;border:1px solid #cbd4dc}img{display:block;max-width:100%;height:500px;object-fit:contain;object-position:top;margin:16px auto}a{color:inherit}a:focus-visible{outline:2px solid #194b35;outline-offset:4px}</style><h1>Kube’s Yard Maintenance — Milestone 2</h1><p>Production static build · Chrome · 375px / 1440px · light / dark. Select a screenshot for the full resolution image. Home is captured with both seasonal choices.</p><main>${captures.map((item) => `<figure><figcaption>${item.label}</figcaption><a href="${item.file}"><img src="${item.file}" alt="${item.label}" loading="lazy">Open full size</a></figure>`).join('')}</main></html>`,
+  `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kube’s Milestone 2.1 screenshots</title><style>body{font:16px/1.6 system-ui;background:#f6f5ef;color:#10291f;margin:32px}h1{font-size:28px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}figure{margin:0;padding:16px;border:1px solid #cbd4dc}img{display:block;max-width:100%;height:500px;object-fit:contain;object-position:top;margin:16px auto}a{color:inherit}a:focus-visible{outline:2px solid #194b35;outline-offset:4px}</style><h1>Kube’s Yard Maintenance — Milestone 2.1</h1><p>Production static build · Chrome · 375px / 1440px · light / dark. Select a screenshot for the full resolution image. Home is captured with both seasonal choices.</p><main>${captures.map((item) => `<figure><figcaption>${item.label}</figcaption><a href="${item.file}"><img src="${item.file}" alt="${item.label}" loading="lazy">Open full size</a></figure>`).join('')}</main></html>`,
 );
 console.log(
   JSON.stringify(

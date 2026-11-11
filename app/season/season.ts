@@ -20,3 +20,14 @@ export function seasonForDate(
 
 // Same rule runs in the document head before paint; never bake build-time dates into HTML.
 export const seasonScript = `document.documentElement.dataset.featuredSeason = (${seasonForDate.toString()})(new Date(), ${JSON.stringify(seasonConfig)});`;
+
+export type PageContext = SeasonId | 'home' | 'shared';
+export function pageContextForPath(pathname: string): PageContext {
+  const path = pathname.replace(/\/$/, '') || '/';
+  if (path === '/lawn-care') return 'summer';
+  if (path === '/snow-removal') return 'winter';
+  return path === '/' ? 'home' : 'shared';
+}
+export function seasonForPage(page: PageContext, featured: SeasonId): SeasonId {
+  return page === 'summer' || page === 'winter' ? page : featured;
+}

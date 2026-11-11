@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { chooseTheme, expectThemePreference } from './theme-helpers';
 import AxeBuilder from '@axe-core/playwright';
 import site from '../app/content/site.json' with { type: 'json' };
 import { seasonForDate } from '../app/season/season';
@@ -104,20 +105,19 @@ test('theme persists, follows system changes, and does not change seasonal conte
 }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/');
-  const theme = page.getByRole('combobox', { name: 'Color theme' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(theme).toHaveValue('system');
-  await theme.selectOption('light');
+  await expectThemePreference(page, 'system');
+  await chooseTheme(page, 'light');
   await page.reload();
-  await expect(theme).toHaveValue('light');
+  await expectThemePreference(page, 'light');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await theme.selectOption('dark');
+  await chooseTheme(page, 'dark');
   await page
     .getByRole('link', { name: 'Snow removal details & pricing', exact: true })
     .click();
-  await expect(theme).toHaveValue('dark');
+  await expectThemePreference(page, 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await theme.selectOption('system');
+  await chooseTheme(page, 'system');
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.goto('/');
@@ -270,7 +270,7 @@ test('quote CTA reaches real contact choices and focus stays visible', async ({
 }) => {
   await page.goto('/');
   const quote = page.locator('.hero-actions').getByRole('link', {
-    name: 'Request a quote',
+    name: 'Request a Quote',
     exact: true,
   });
   await expect(quote).toHaveAttribute('href', '/contact');
@@ -299,9 +299,7 @@ test('theme storage failure is safe and reduced motion removes transitions', asy
   });
   await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
   await page.goto('/');
-  await page
-    .getByRole('combobox', { name: 'Color theme' })
-    .selectOption('dark');
+  await chooseTheme(page, 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.emulateMedia({ colorScheme: 'light' });
@@ -499,11 +497,10 @@ test('mobile theme, focus exit, hamburger and reduced motion work together', asy
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const menu = page.getByRole('button', { name: /^(Open|Close) menu$/ });
-  const theme = page.getByRole('combobox', { name: 'Color theme' });
-  await expect(theme).toBeHidden();
+  await expect(page.getByRole('menu', { name: 'Color theme' })).toBeHidden();
   await menu.click();
-  await expect(theme).toBeVisible();
-  await theme.selectOption('dark');
+  await expect(page.getByRole('menu', { name: 'Color theme' })).toBeVisible();
+  await chooseTheme(page, 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   expect(
     await page
@@ -517,19 +514,19 @@ test('mobile theme, focus exit, hamburger and reduced motion work together', asy
       .nth(1)
       .evaluate((el) => getComputedStyle(el).opacity),
   ).toBe('0');
-  await theme.focus();
+  await page.getByRole('menuitemradio', { name: 'Dark', exact: true }).focus();
   await page.keyboard.press('Escape');
   await expect(menu).toBeFocused();
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await menu.click();
   await page
     .getByRole('navigation', { name: 'Main navigation' })
-    .getByRole('link', { name: /Request a quote/ })
+    .getByRole('link', { name: /Request a Quote/ })
     .click();
   await expect(page).toHaveURL('/contact');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await menu.click();
-  await expect(theme).toHaveValue('dark');
+  await expectThemePreference(page, 'dark');
   await page.locator('main').focus();
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
 });

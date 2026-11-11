@@ -35,7 +35,7 @@ export function Hero() {
               </ActionLink>
             </span>
           ))}
-          <ActionLink href={quoteAction.href} variant="text">
+          <ActionLink href={quoteAction.href} variant="text" withArrow={false}>
             {quoteAction.label}
           </ActionLink>
         </div>

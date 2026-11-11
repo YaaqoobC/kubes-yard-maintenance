@@ -26,7 +26,9 @@ Appearance selection never changes service visibility. Original raster artwork
 keeps its white/dark backing in both themes; do not recolor the logos.
 
 The default theme is system. An inline head script resolves storage and OS preference
-before styles paint. A native labelled select exposes all three options; OS changes
+before styles paint. An icon-only desktop disclosure opens Light/Dark/System choices; mobile shows
+a compact segmented row inside the hamburger menu. The trigger’s sun/moon follows
+the effective appearance, including System. OS changes
 and storage changes in another tab are observed. Storage failure must not break the site.
 
 ## Typography and composition
@@ -70,7 +72,7 @@ Validate at 320, 375, 768, 1024, and 1440px, plus enlarged text/zoom where pract
 ## Components, access, and motion
 
 Use `ActionLink` for substantial CTAs and underlined inline actions. All links have
-real destinations. Primary actions, theme select, and menu trigger have at least
+real destinations. Primary actions, appearance options, and menu triggers have at least
 44px target height. Focus uses an offset 2px ring. The skip link precedes navigation.
 Use one h1, labelled sections, descriptive accessible names, native controls, and
 decorative SVGs hidden from assistive technology. Body contact details stay selectable.
@@ -113,3 +115,24 @@ stacking level 30, and a thin full-width border. Scroll padding is 128px desktop
 is nonmodal and scrollable on short screens. Reduced motion removes the hamburger
 transition as well as other motion. Keep pricing and FAQs readable without horizontal
 scrolling; at narrow widths price moves below its label.
+
+## Milestone 2.1 controls and tab identity
+
+Filled `ActionLink` buttons share the seasonal accent/background tokens, modest
+3px radius, comfortable padding, and existing color/focus transitions. Filled
+buttons carry no arrows. Request a Quote actions use the shared label/destination;
+the homepage’s secondary quote text is also arrow-free. Ordinary text service
+navigation retains the understated arrow. Header quote actions now use the same
+filled button style at a compact 44px minimum height.
+
+The desktop appearance trigger has a 44px target with an 18px sun/moon. Its menu
+uses icons, a checkmark, and a contrasting active background. It supports native
+Enter/Space, arrow keys, Home/End, Escape, outside click, and focus exit. Mobile
+reuses the same options as a three-part row; the active segment has a contrasting
+fill and underline. No new entrance animation or menu library.
+
+Favicon identity is independent of appearance. Lawn always uses summer, snow always
+winter; shared pages follow the current featured season, including a manual choice.
+Original artwork is downscaled proportionally and padded to square canvases; it
+is never recolored or redrawn. Browser tab icons use the generated 64px PNG. See
+architecture documentation for bootstrap, caching, and fallback behavior.

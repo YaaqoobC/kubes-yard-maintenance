@@ -1,6 +1,6 @@
 # Kube’s Yard Maintenance
 
-Milestone 2: a concise, seasonal React homepage, complete lawn care and snow removal
+Milestone 2.1: a concise, seasonal React homepage, complete lawn care and snow removal
 pages with approved pricing, and shared About/Contact pages. Static hosting
 only; no runtime server or contact-form backend.
 
@@ -15,6 +15,8 @@ npm run dev
 
 Open the Local URL printed by Vite. Contact CTAs use real `tel:` and `mailto:`
 links. Theme preference supports light, dark, and system and persists locally.
+Desktop opens appearance choices from a sun/moon button; mobile keeps them inside
+the hamburger menu. Tab favicons follow the route/featured season independently.
 
 ## Commands
 
@@ -78,10 +80,10 @@ to `public/brand`. Sync them with `node scripts/sync-brand.mjs`. Swap the suppli
 files and sync them without restructuring sections.
 All visible headings and business names are HTML. No stock or AI imagery is used.
 
-Stop point: Milestone 2. Winter response guarantees, exact service boundaries,
+Stop point: Milestone 2.1. Winter response guarantees, exact service boundaries,
 add-on billing frequency, credentials, and owner/photo material still require
 confirmation. See the content inventory and [Milestone 2 handoff](docs/milestone-2-handoff.md).
-No backend or Milestone 3 work is included.
+No backend or subsequent milestone work is included.
 
 ## Browser review
 
@@ -90,7 +92,7 @@ To reproduce the 60-case viewport/theme/axe audit and screenshots, build the sit
 --port 4174`, then in another terminal:
 
 ```sh
-PLAYWRIGHT_CHANNEL=chrome node scripts/audit-site.mjs http://127.0.0.1:4174 artifacts/milestone-2/review
+PLAYWRIGHT_CHANNEL=chrome node scripts/audit-site.mjs http://127.0.0.1:4174 artifacts/milestone-2.1/review
 ```
 
 Omit `PLAYWRIGHT_CHANNEL=chrome` to use installed Playwright Chromium. Generated
@@ -98,3 +100,15 @@ screenshots and JSON stay in ignored `artifacts/`; no captures enter public asse
 The audit captures evidence and reports findings; `npm run check` supplies the
 asserting regression suite. Actual production hosting status must be rechecked
 after the owner deploys the build.
+
+## Favicon assets
+
+Original source artwork stays in `logos/`. Generated seasonal 16/32/64px PNGs live
+in `public/favicons`, the default multi-size summer icon is `public/favicon.ico`,
+and `app/content/favicons.json` maps content-hashed filenames. Regenerate offline
+on macOS with `node scripts/generate-favicons.mjs` after replacing approved original
+logos; commit the generated assets and manifest. Production builds need no image tool.
+No Apple touch icon is supplied; mobile home-screen caching is separate.
+
+See [Milestone 2.1 handoff](docs/milestone-2.1-handoff.md) for actual validation and
+browser favicon-cache limitations.

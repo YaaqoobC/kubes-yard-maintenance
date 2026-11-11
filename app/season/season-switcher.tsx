@@ -1,16 +1,8 @@
-import { useSyncExternalStore } from 'react';
+import { useFeaturedSeason } from './featured-season';
 import type { SeasonId } from './season';
 
-function subscribe(notify: () => void) {
-  window.addEventListener('seasonchange', notify);
-  return () => window.removeEventListener('seasonchange', notify);
-}
-function snapshot() {
-  return document.documentElement.dataset.featuredSeason ?? 'summer';
-}
-
 export function SeasonSwitcher() {
-  const season = useSyncExternalStore(subscribe, snapshot, () => null);
+  const season = useFeaturedSeason();
   function select(value: SeasonId) {
     document.documentElement.dataset.featuredSeason = value;
     window.dispatchEvent(new Event('seasonchange'));

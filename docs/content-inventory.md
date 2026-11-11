@@ -11,6 +11,9 @@ are structured data. Do not copy prices into route JSX.
 - Business: Kube’s Yard Maintenance; phone 780-919-8240; email kubesym@gmail.com.
 - Market: Edmonton area, Alberta. Exact address boundaries require direct confirmation.
 - Original logos: supplied `logos/`, copied byte-for-byte to `public/brand/`.
+- Derived seasonal favicons: original artwork downscaled/padded to 16/32/64px in
+  `public/favicons/`, with a default summer ICO. Provenance and regeneration are
+  documented in `logos/README.md`; no source artwork is changed or AI-generated.
 - All quoted dollar amounts follow the owner's supplied notation; taxes and price
   effective dates were not supplied. No tax-inclusive or fixed-duration claim is made.
 

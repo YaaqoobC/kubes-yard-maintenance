@@ -15,21 +15,15 @@ import './styles/app.css';
 import { Header } from './components/layout/header';
 import { Footer } from './components/layout/footer';
 import { themeScript } from './theme/theme';
-import { seasonScript } from './season/season';
+import { seasonScript, pageContextForPath } from './season/season';
 import { ActionLink } from './components/ui/action-link';
 import { RouteFocus } from './components/layout/route-focus';
 import { NotFound } from './components/ui/not-found';
+import { SeasonalFavicon } from './season/seasonal-favicon';
 
 export function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
-  const page =
-    pathname.replace(/\/$/, '') === '/snow-removal'
-      ? 'winter'
-      : pathname.replace(/\/$/, '') === '/lawn-care'
-        ? 'summer'
-        : pathname === '/'
-          ? 'home'
-          : 'shared';
+  const page = pageContextForPath(pathname);
   return (
     <html lang="en-CA" suppressHydrationWarning>
       <head>
@@ -41,7 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
         />
         <Meta />
         <Links />
-        <link rel="icon" href="/brand/summer-logo.png" type="image/png" />
+        <SeasonalFavicon page={page} />
       </head>
       <body id="top" data-page={page}>
         <a className="skip-link" href="#main-content">

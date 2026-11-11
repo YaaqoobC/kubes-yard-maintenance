@@ -1,17 +1,16 @@
 import { useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
+import { pageContextForPath } from '../../season/season';
+import { ActionLink } from '../ui/action-link';
 import { navigation, quoteAction } from '../../content/business';
 import { ThemeControl } from '../../theme/theme-control';
 import { Brand } from './brand';
 
 export function Header() {
   const { key, pathname } = useLocation();
+  const page = pageContextForPath(pathname);
   const brandSeason =
-    pathname.replace(/\/$/, '') === '/snow-removal'
-      ? 'winter'
-      : pathname === '/'
-        ? 'featured'
-        : 'summer';
+    page === 'winter' ? 'winter' : page === 'home' ? 'featured' : 'summer';
   const [menu, setMenu] = useState({ locationKey: key, open: false });
   const menuButton = useRef<HTMLButtonElement>(null);
   // Reset before rendering a new history entry, including brand links and Back.
@@ -71,13 +70,9 @@ export function Header() {
           </div>
           <div className="header-tools">
             <ThemeControl />
-            <NavLink
-              className="header-quote"
-              to={quoteAction.href}
-              onClick={() => setOpen(false)}
-            >
-              {quoteAction.label} <span aria-hidden="true">↗</span>
-            </NavLink>
+            <ActionLink href={quoteAction.href} onClick={() => setOpen(false)}>
+              {quoteAction.label}
+            </ActionLink>
           </div>
         </nav>
       </div>

@@ -293,24 +293,6 @@
   align-items: center;
   gap: 1.25rem;
 }
-.theme-control {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-.theme-control select {
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  min-height: 44px;
-  width: 75px;
-  padding-left: 3px;
-  font-size: 0.75rem;
-}
-.theme-control option {
-  background: var(--surface-canvas);
-  color: var(--text-primary);
-}
 
 .menu-toggle {
   display: none;
@@ -848,17 +830,7 @@
   .brand span span {
     font-size: var(--text-brand-detail);
   }
-  .theme-control {
-    gap: 0.05rem;
-  }
-  .theme-control svg {
-    width: 13px;
-  }
-  .theme-control select {
-    width: 63px;
-    font-size: var(--text-caption);
-    padding: 0;
-  }
+
   .menu-toggle {
     font-size: var(--text-caption);
     gap: 0.5rem;
@@ -1139,15 +1111,7 @@ html[data-featured-season='winter'] .featured-variant[data-feature='winter'] {
 .header-tools {
   margin-left: 0.5rem;
 }
-.header-quote {
-  font-size: 0.8rem;
-  white-space: nowrap;
-  text-decoration: underline;
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  gap: 0.8rem;
-}
+
 .seasonal-plate {
   padding-bottom: 0.1rem;
 }
@@ -1380,10 +1344,6 @@ summary:focus-visible {
   .nav-links {
     gap: 1rem;
   }
-  .header-quote {
-    gap: 0.4rem;
-    font-size: 0.75rem;
-  }
 }
 @media (max-width: 800px) {
   html {
@@ -1407,17 +1367,7 @@ summary:focus-visible {
     padding-top: 0.75rem;
     gap: 1rem;
   }
-  .header-tools .header-quote {
-    background: var(--text-accent);
-    color: var(--surface-canvas);
-    padding: 0.65rem 1rem;
-    text-decoration: none;
-  }
-  .header-tools .theme-control select {
-    width: 90px;
-    padding-left: 0.5rem;
-    font-size: 0.9rem;
-  }
+
   .menu-toggle {
     width: 44px;
     height: 44px;
@@ -1544,5 +1494,126 @@ summary:focus-visible {
   }
   .hero-logo-frame .hero-logo[data-feature='winter'] {
     max-height: 190px;
+  }
+}
+
+/* Shared filled actions stay quiet; text links retain directional arrows. */
+.action-link:not(.action-link--text) {
+  justify-content: center;
+}
+.header-tools > .action-link {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.theme-control {
+  position: relative;
+  flex: 0 0 auto;
+}
+.theme-trigger {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration),
+    border-color var(--duration);
+}
+.theme-trigger:hover {
+  background: var(--surface-raised);
+  border-color: var(--border-default);
+}
+.theme-effective-dark {
+  display: none;
+}
+html[data-theme='dark'] .theme-effective-light {
+  display: none;
+}
+html[data-theme='dark'] .theme-effective-dark {
+  display: block;
+}
+.theme-options {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  width: 172px;
+  padding: 0.4rem;
+  background: var(--surface-header);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-control);
+  z-index: 1;
+}
+.theme-options.is-open {
+  display: grid;
+}
+.theme-options button {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  text-align: left;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background-color var(--duration),
+    color var(--duration);
+}
+.theme-options button:hover {
+  background: var(--surface-raised);
+}
+.theme-options button[aria-checked='true'] {
+  background: var(--text-accent);
+  color: var(--surface-canvas);
+}
+.theme-check {
+  margin-left: auto;
+  width: 0.8rem;
+}
+@media (max-width: 800px) {
+  .theme-control {
+    width: 100%;
+  }
+  .theme-trigger {
+    display: none;
+  }
+  .theme-options,
+  .theme-options.is-open {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: static;
+    width: 100%;
+    padding: 0.25rem;
+    gap: 0.25rem;
+    background: var(--surface-raised);
+  }
+  .theme-options button {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.6rem 0.3rem;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+  }
+  .theme-options button > svg {
+    width: 16px;
+    height: 16px;
+  }
+  .theme-check {
+    display: none;
+  }
+  .theme-options button[aria-checked='true'] {
+    box-shadow: inset 0 -2px 0 currentColor;
+  }
+  .header-tools > .action-link {
+    width: 100%;
   }
 }

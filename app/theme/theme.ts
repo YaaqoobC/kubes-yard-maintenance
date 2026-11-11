@@ -16,3 +16,13 @@ export const themeScript = `(() => {
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
   document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
 })();`;
+
+export function applyThemePreference(value: ThemePreference): 'light' | 'dark' {
+  const dark =
+    value === 'dark' ||
+    (value === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  const effective = dark ? 'dark' : 'light';
+  document.documentElement.dataset.theme = effective;
+  document.documentElement.style.colorScheme = effective;
+  return effective;
+}

@@ -16,9 +16,11 @@ app/
     home/                     Homepage sections
   content/                    Typed business facts, approved prices, metadata helper
   season/                     Edmonton date rule, head bootstrap, manual switcher
-  theme/                      Preference logic and native select
+  theme/                      Existing preference logic, icon/menu appearance control
   styles/app.css              Tailwind import, semantic tokens, component styles
 public/brand/                 Supplied original-source PNG assets
+public/favicons/              Generated 16/32/64px seasonal PNGs
+public/favicon.ico            Default summer fallback (16/32/64px entries)
 panflits/                     Unmodified original pamphlets
 scripts/                      Brand copy, static finalizer, browser audit
 tests/                        Browser, static rendering, accessibility checks
@@ -95,8 +97,8 @@ Official references consulted during setup:
   menu state is reset during rendering when the router history key changes, keeping
   theme controls mounted and avoiding a stale expanded menu on Back or logo navigation.
 - `scripts/audit-site.mjs` captures a 60-case responsive/axe matrix (five routes plus a summer-home variant,
-  five widths, two themes), 24 desktop/mobile page screenshots, and two expanded-menu screenshots. Generated evidence is ignored under `artifacts/`;
-  historical findings remain in `docs/milestone-1.5-audit.md`, with current results in `docs/milestone-2-handoff.md`.
+  five widths, two themes), 24 desktop/mobile page screenshots, two expanded mobile-menu screenshots, and two desktop appearance-menu screenshots. Generated evidence is ignored under `artifacts/`;
+  historical findings remain in `docs/milestone-1.5-audit.md`, with Milestone 2 results in `docs/milestone-2-handoff.md` and current results in `docs/milestone-2.1-handoff.md`.
 
 ## Season and appearance architecture
 
@@ -125,7 +127,12 @@ No duplicated seasonal theme system or new dependencies are introduced.
 
 The header is sticky in document flow. Desktop links and tools share one nav; at
 800px and below it expands below the header, with bounded viewport height/scrolling.
-The single theme control moves with CSS into that menu, preserving its state.
+The single appearance control keeps the existing preference state and storage.
+Desktop uses an icon-triggered menu; mobile reuses its options as a segmented row
+inside navigation. Keyboard choice, outside click, Escape, focus exit, history
+changes, and breakpoint changes dismiss the desktop popup. The selected option
+is a menu radio item; arrow keys and Home/End move focus. Selection returns desktop
+focus to the trigger and keeps the mobile navigation open.
 A CSS three-line hamburger transforms into an X. The nonmodal disclosure supports
 Escape to its trigger, closes on focus leaving the header and on every history
 entry, and retains native Tab order. Route navigation focuses main. Root scroll
@@ -133,11 +140,47 @@ padding accounts for the sticky header, including fragment links and skip links.
 
 ## Milestone boundary
 
-Milestone 2 completes both service pages, season behavior, navigation, and shared
-page refinement. No backend, CMS, database, deployment, or Milestone 3 features.
+Milestone 2 completed both service pages, season behavior, navigation, and shared
+page refinement. Milestone 2.1 adds only CTA, appearance-control, and favicon refinements.
+No backend, CMS, database, deployment, or subsequent milestone features.
 Confirm winter response terms, credentials, exact service boundaries, add-on billing,
 and owner/photo material before adding claims. Future approved domain changes must
 update `site.json` so canonical and crawler output change together.
 
 Hosting references: [Netlify custom 404 handling](https://docs.netlify.com/manage/routing/redirects/redirect-options/#custom-404-page-handling),
 [Netlify custom headers](https://docs.netlify.com/manage/routing/headers/).
+
+## Milestone 2.1 favicon and control implementation
+
+`pageContextForPath` and `seasonForPage` in `app/season/season.ts` centralize route
+context and seasonal overrides. Layout, header, and favicon reuse that context.
+`SeasonalFavicon` owns exactly one `link[rel=icon]`. The static lawn/snow HTML
+contains the correct fixed seasonal asset; shared HTML uses summer as its no-JS
+fallback. A head script immediately applies the visitor’s featured season using
+the same pure rules and manifest. It runs after the declaration, before hydration.
+
+The head consumer of `useFeaturedSeason` opts into the pre-paint document snapshot
+when hydrating. This matches the already-updated icon href, so React can claim
+that existing node. Body season controls keep the original null server snapshot.
+The icon’s error handler opts it out of React’s head-resource hoisting, preventing
+independent hoisted declarations; if the browser reports an icon error it tries
+`/favicon.ico` once. Route rendering and the shared `seasonchange` subscription
+update the existing declaration on client navigation, manual choice, and history.
+There is no duplicate icon or connection to appearance preference.
+
+`app/content/favicons.json` maps seasonal sizes to content-hashed paths. The offline
+macOS script `node scripts/generate-favicons.mjs` uses built-in `sips` to downscale
+the original `logos/*-logo.png` proportionally, pads to 16/32/64px square canvases
+with each source backing, and writes PNGs, the manifest, and a multi-size default
+summer ICO. Commit generated files; Netlify/Linux builds need no image tool or new
+dependency. A content change changes the active PNG URL to avoid stale tab-icon
+cache entries. Existing files use normal host revalidation (no immutable favicon
+rule). Browser favicon caches can still persist across tabs/bookmarks; verify the
+actual href/request in a fresh tab/profile after deployment. `/favicon.ico` is a
+static default and may have its own browser cache. No Apple touch icon is provided;
+iOS home-screen icon behavior is separate from the tab icon and is not asserted.
+
+`applyThemePreference` centralizes the existing DOM appearance update for preference
+selection and OS/storage events. The original theme head bootstrap remains in place;
+CSS selects the effective sun/moon before hydration without displaying permanent
+Light/Dark/System text in desktop navigation. No separate theme state system.

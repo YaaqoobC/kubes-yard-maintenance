@@ -65,5 +65,5 @@ export const seasons: readonly [Season, Season] = [
 
 export const quoteAction = {
   href: '/contact',
-  label: 'Request a quote',
+  label: 'Request a Quote',
 } as const;
