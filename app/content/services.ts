@@ -200,3 +200,8 @@ export const snowRemoval: ServicePage = {
     },
   ],
 };
+
+export const serviceQuestions = {
+  id: 'service-faq',
+  title: 'Questions & service details',
+} as const;

@@ -1,6 +1,6 @@
 # Kube’s Yard Maintenance
 
-Milestone 2.1: a concise, seasonal React homepage, complete lawn care and snow removal
+Milestone 2.2: a concise, seasonal React homepage, complete lawn care and snow removal
 pages with approved pricing, and shared About/Contact pages. Static hosting
 only; no runtime server or contact-form backend.
 
@@ -80,7 +80,7 @@ to `public/brand`. Sync them with `node scripts/sync-brand.mjs`. Swap the suppli
 files and sync them without restructuring sections.
 All visible headings and business names are HTML. No stock or AI imagery is used.
 
-Stop point: Milestone 2.1. Winter response guarantees, exact service boundaries,
+Stop point: Milestone 2.2. Winter response guarantees, exact service boundaries,
 add-on billing frequency, credentials, and owner/photo material still require
 confirmation. See the content inventory and [Milestone 2 handoff](docs/milestone-2-handoff.md).
 No backend or subsequent milestone work is included.
@@ -112,3 +112,25 @@ No Apple touch icon is supplied; mobile home-screen caching is separate.
 
 See [Milestone 2.1 handoff](docs/milestone-2.1-handoff.md) for actual validation and
 browser favicon-cache limitations.
+
+## Service navigation review (Milestone 2.2)
+
+Service pages share a bounded sticky sidebar at desktop widths and a compact
+“Jump to service” select below 1000px. Active tracking, keyboard focus, and Router
+hash/history behavior use the same typed targets. The service-only wrapper ends
+before the contact CTA, so both controls release naturally.
+
+After building, run `npm run preview -- --port 4174`, then:
+
+```sh
+PLAYWRIGHT_CHANNEL=chrome node scripts/audit-service-navigation.mjs http://127.0.0.1:4174 artifacts/milestone-2.2/review
+```
+
+This asserts the 20 service-route/width/theme cases, captures reading/contact-boundary
+screenshots, and tests both routes/themes at actual 200% Chrome zoom using isolated
+temporary profiles and Chrome’s own appearance settings. It requires a full Chrome
+browser (`PLAYWRIGHT_CHANNEL=chrome`), not headless-shell. It never changes the user’s
+normal browser profile. The regular `npm run check` suite covers navigation, hashes,
+history, static fallback, keyboard focus, and existing site behavior.
+
+See [Milestone 2.2 handoff](docs/milestone-2.2-handoff.md) for actual results.

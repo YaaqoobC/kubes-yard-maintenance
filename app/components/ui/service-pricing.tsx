@@ -8,7 +8,9 @@ export function ServicePricing({ section }: { section: PricingSection }) {
       aria-labelledby={`${section.id}-heading`}
     >
       <div className="service-section-intro">
-        <h2 id={`${section.id}-heading`}>{section.title}</h2>
+        <h2 id={`${section.id}-heading`} tabIndex={-1}>
+          {section.title}
+        </h2>
         <p>{section.description}</p>
       </div>
       <div className="pricing-list">

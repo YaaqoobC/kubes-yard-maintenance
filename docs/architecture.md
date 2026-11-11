@@ -98,7 +98,7 @@ Official references consulted during setup:
   theme controls mounted and avoiding a stale expanded menu on Back or logo navigation.
 - `scripts/audit-site.mjs` captures a 60-case responsive/axe matrix (five routes plus a summer-home variant,
   five widths, two themes), 24 desktop/mobile page screenshots, two expanded mobile-menu screenshots, and two desktop appearance-menu screenshots. Generated evidence is ignored under `artifacts/`;
-  historical findings remain in `docs/milestone-1.5-audit.md`, with Milestone 2 results in `docs/milestone-2-handoff.md` and current results in `docs/milestone-2.1-handoff.md`.
+  historical findings remain in `docs/milestone-1.5-audit.md`, with Milestone 2 results in `docs/milestone-2-handoff.md` Milestone 2.1 results in `docs/milestone-2.1-handoff.md`, and current service-navigation results in `docs/milestone-2.2-handoff.md`.
 
 ## Season and appearance architecture
 
@@ -141,7 +141,8 @@ padding accounts for the sticky header, including fragment links and skip links.
 ## Milestone boundary
 
 Milestone 2 completed both service pages, season behavior, navigation, and shared
-page refinement. Milestone 2.1 adds only CTA, appearance-control, and favicon refinements.
+page refinement. Milestone 2.1 added CTA, appearance-control, and favicon refinements.
+Milestone 2.2 adds bounded service directories and shared active-section tracking.
 No backend, CMS, database, deployment, or subsequent milestone features.
 Confirm winter response terms, credentials, exact service boundaries, add-on billing,
 and owner/photo material before adding claims. Future approved domain changes must
@@ -184,3 +185,46 @@ iOS home-screen icon behavior is separate from the tab icon and is not asserted.
 selection and OS/storage events. The original theme head bootstrap remains in place;
 CSS selects the effective sun/moon before hydration without displaying permanent
 Light/Dark/System text in desktop navigation. No separate theme state system.
+
+## Milestone 2.2 service navigation
+
+`ServicePage` wraps only the directory and pricing/FAQ sections in `.service-layout`.
+The contact CTA is the next sibling, and the footer remains outside main. Desktop
+uses a two-column grid with `ServiceDirectory` as a sticky sidebar. Its containing
+block ends with the service content, so CSS naturally releases it before the CTA.
+The directory has a viewport-bounded internal scroll area on short desktop windows;
+no ancestor creates an overflow scroll container. Pricing remains in its existing
+editorial layout, stacking within the content column at 1000–1150px to stay readable.
+
+Below 1000px the same component presents a labelled native select, sticky below
+the header within that same service-only parent. Its normal flow space remains
+reserved, so it does not obscure prices or move content when sticking/releasing.
+The original anchor list is a useful static fallback when JavaScript is disabled;
+on narrow no-JS layouts it stays in normal flow. The mobile picker becomes
+`visibility: hidden` while the hamburger is expanded, preserving layout space
+while preventing competing focus/interaction under the site navigation.
+
+`--header-height` describes the unchanged outer header sizes (107/89/85px across
+breakpoints). Header inner height, expanded-menu max-height, root scroll padding,
+and service sticky offsets share that token. `--sticky-gap` adds a consistent
+16px breathing space. A ResizeObserver measures only header/directory size changes
+and writes `--service-nav-height` on the service wrapper, affecting scroll margins
+rather than layout. Sections and their h2 targets account for the compact row in
+addition to the root header scroll padding.
+
+One IntersectionObserver watches the actual service sections at a narrow activation
+band immediately below the sticky stack, with a 4px fractional-pixel allowance.
+Its callbacks reconcile the section containing that band; React state changes only
+when the section ID changes. Resizing rebuilds the observer. There is no scroll
+listener or JavaScript sticky-position calculation. Active desktop links use
+`aria-current="location"`, an underline, heavier text, and a side rule. The native
+picker exposes the current section through its selected option.
+
+Directory items derive from typed service sections plus the shared typed FAQ target.
+React Router Links render real anchors, and the native picker uses the same Router
+hash navigation. This gives hash entries distinct history keys and keeps scroll
+restoration coordinated with Back/Forward. After hash navigation settles, focus
+moves to the corresponding h2 with `preventScroll`; native hash/Router scrolling
+uses CSS offsets and respects the existing reduced-motion rule. Initial direct
+hashes, reloads, same-page navigation, manual scrolling, and history are covered.
+No backend, content/pricing changes, or dependencies.

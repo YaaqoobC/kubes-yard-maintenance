@@ -539,14 +539,17 @@ test('service anchors clear the sticky header and all internal destinations reso
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/lawn-care', '/snow-removal']) {
       await page.goto(path);
-      await page.locator('.service-jump-links a').first().click();
-      await page.waitForFunction(
-        () =>
-          Math.abs(
-            document.querySelector('.service-section')!.getBoundingClientRect()
-              .top - 128,
-          ) < 18,
-      );
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      const directory = page.getByRole('navigation', {
+        name: /service directory$/,
+      });
+      const id = path === '/lawn-care' ? 'mowing' : 'snow-plans';
+      if (width < 1000)
+        await directory
+          .getByRole('combobox', { name: 'Jump to service' })
+          .selectOption(id);
+      else await directory.locator(`a[href$="#${id}"]`).click();
+      await expect(page).toHaveURL(new RegExp(`#${id}$`));
       const header = await page.getByRole('banner').boundingBox();
       const target = await page
         .locator('.service-section')

@@ -13,3 +13,5 @@
 
 - Filled CTAs are arrow-free; quote actions use shared content. Keep ordinary text-link arrows optional.
 - Favicon route/featured-season selection belongs in `app/season`. Keep one active icon declaration, independent of appearance. Preserve content-hashed generated assets and manifest; regenerate offline from original logos with `scripts/generate-favicons.mjs`.
+
+- Keep service navigation within the service-only `.service-layout` parent, before the CTA. Reuse `ServiceDirectory` and typed service/FAQ targets. Use the shared `--header-height` token, native CSS sticky, and observer-based active tracking; do not add per-scroll position listeners. Coordinate hash navigation with React Router and keep both section and heading scroll margins clear of the compact picker.

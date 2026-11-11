@@ -110,8 +110,8 @@ evergreen identity. No winter green bands, weather effects, or fake imagery.
 The homepage logo frame reserves height for either original emblem before hydration;
 manual season buttons use native pressed state and a minimum 44px height. The
 header stays in flow with `position: sticky; top: 0`, solid semantic background,
-stacking level 30, and a thin full-width border. Scroll padding is 128px desktop /
-112px mobile, exceeding the 106px / 88px (84px narrow) header. Expanded navigation
+stacking level 30, and a thin full-width border. The shared outer-header token is 107px desktop / 89px mobile / 85px narrow,
+including the border. Root scroll padding adds `--sticky-gap` (16px). Expanded navigation
 is nonmodal and scrollable on short screens. Reduced motion removes the hamburger
 transition as well as other motion. Keep pricing and FAQs readable without horizontal
 scrolling; at narrow widths price moves below its label.
@@ -136,3 +136,23 @@ winter; shared pages follow the current featured season, including a manual choi
 Original artwork is downscaled proportionally and padded to square canvases; it
 is never recolored or redrawn. Browser tab icons use the generated 64px PNG. See
 architecture documentation for bootstrap, caching, and fallback behavior.
+
+## Milestone 2.2 service directory
+
+At 1000px and above, keep the existing service labels in a restrained sticky sidebar
+with a 208px column (192px on smaller desktops), using normal semantic canvas,
+text, border, and accent tokens. The active link has an underline, heavier text,
+and a 3px side rule as well as a surface change. Long labels wrap; links remain
+at least 44px high. The sidebar scrolls internally if its list exceeds the available
+viewport height. Keep its ancestors free of overflow clipping.
+
+Below 1000px, use a full-width labelled native “Jump to service” select, at least
+44px high, with a compact label and the existing modest control radius. Keep the
+row’s normal flow space and a solid semantic background. Its sticky top uses the
+same header-height token as the desktop sidebar. The containing service wrapper
+ends before the closing contact band, so neither control persists over the CTA/footer.
+Hide the row without removing its space while the hamburger is expanded.
+
+Service sections/heading targets add the measured row height as scroll margin;
+root scroll padding accounts for the main header and gap. Appearance/season do
+not affect navigation behavior. Preserve visible focus and reduced-motion scrolling.
