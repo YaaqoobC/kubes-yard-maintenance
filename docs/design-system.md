@@ -38,6 +38,14 @@ use `clamp(2rem, 3.5vw, 3.25rem)`. Heading weight 600; tight negative tracking,
 1.07 display / 1.2 section line height. Body text generally 0.85–1rem, line height 1.65.
 Small uppercase labels support hierarchy; do not place essential instructions only in tiny labels.
 
+Milestone 1.5 adds `--text-caption` (12px at the default root size) for service
+names, labels, notes, controls, and footer details. Only the compact logo's HTML
+descriptor uses `--text-brand-detail` (10px); the accessible link name includes the
+full business name. These sizes are readability choices, not a claimed WCAG
+minimum font-size requirement. Captions wrap rather than being clipped.
+Original summer hero artwork is capped at its 263px native width. Service-page
+logos are capped at 246px high; mobile supporting art panels are at most 260px wide.
+
 The composition pairs an editorial headline with an original brand plate, then
 two seasonal panels, an indexed service list, a restrained introduction, and one
 closing contact band. Indexes are service ordering, never business statistics.
@@ -52,6 +60,8 @@ Base spacing rhythm: 4, 8, 12, 16, 24, 32, 48, 64px. Section spacing scales from
 Header navigation becomes an expandable menu at 800px; it supports Escape and
 returns focus to its trigger. Hero and services stack at 600px. Both seasonal
 panels always appear. Avoid fixed content heights and do not mask overflow.
+The menu resets on every history entry, including brand links and Back/Forward.
+Client route changes focus the main landmark without overriding scroll restoration.
 Validate at 320, 375, 768, 1024, and 1440px, plus enlarged text/zoom where practical.
 
 ## Components, access, and motion

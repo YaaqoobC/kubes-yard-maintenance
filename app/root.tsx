@@ -15,6 +15,8 @@ import { Header } from './components/layout/header';
 import { Footer } from './components/layout/footer';
 import { themeScript } from './theme/theme';
 import { ActionLink } from './components/ui/action-link';
+import { RouteFocus } from './components/layout/route-focus';
+import { NotFound } from './components/ui/not-found';
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -33,6 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <Header />
+        <RouteFocus />
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
@@ -51,17 +54,12 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
   const notFound = isRouteErrorResponse(error) && error.status === 404;
+  if (notFound) return <NotFound />;
   return (
     <section className="container page-intro">
-      <p className="eyebrow">
-        {notFound ? 'Page not found' : 'Something went wrong'}
-      </p>
-      <h1>{notFound ? 'A little off the path.' : 'Let’s try that again.'}</h1>
-      <p>
-        {notFound
-          ? 'This page isn’t here. Find your way back to our yard care and snow removal services.'
-          : 'Please reload the page or return home.'}
-      </p>
+      <p className="eyebrow">Something went wrong</p>
+      <h1>Let’s try that again.</h1>
+      <p>Please reload the page or return home.</p>
       <ActionLink href="/">Back to home</ActionLink>
     </section>
   );

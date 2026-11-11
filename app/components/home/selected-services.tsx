@@ -10,13 +10,13 @@ export function SelectedServices() {
       <div className="services-intro">
         <p className="eyebrow">A closer look</p>
         <h2 id="services-heading">
-          Good things
+          Mowing, cleanup,
           <br />
-          start at ground level.
+          and acreage care.
         </h2>
         <p>
-          A small yard or room to roam. A seasonal reset or a regular routine.
-          Let’s find what your space needs.
+          Choose a one-time cut, weekly or bi-weekly mowing, or a seasonal
+          cleanup. Ask about options for your lawn or acreage.
         </p>
         <ActionLink href="/lawn-care" variant="text">
           More about our yard services

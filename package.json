@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "react-router dev --host 127.0.0.1",
-    "build": "react-router build",
+    "build": "react-router build && node scripts/finalize-static.mjs",
     "preview": "vite preview --config vite.preview.config.ts",
     "typecheck": "react-router typegen && tsc --noEmit",
     "lint": "eslint .",

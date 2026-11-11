@@ -13,14 +13,14 @@ export function SeasonsSection() {
           <div>
             <p className="eyebrow">Two seasons. One familiar name.</p>
             <h2 id="seasons-heading">
-              Whatever’s outside,
+              Lawn care to
               <br />
-              we’re on it.
+              snow removal.
             </h2>
           </div>
           <p>
-            Different seasons bring different to-do lists.
-            <br className="desktop-break" /> Find a little help with yours.
+            Explore both services year-round. Call or email to confirm
+            availability and current pricing for your property.
           </p>
         </div>
         <div className="season-grid">

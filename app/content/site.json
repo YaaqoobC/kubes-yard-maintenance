@@ -1,0 +1,4 @@
+{
+  "origin": "https://kubes-yard-maintenance.netlify.app",
+  "publicPaths": ["/", "/lawn-care/", "/snow-removal/", "/about/", "/contact/"]
+}

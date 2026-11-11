@@ -56,4 +56,7 @@ captions identifying actual jobs before introducing photography.
 Need confirmation: exact service area, approved current pricing and operating
 policies, owner introduction, preferred official apostrophe/brand spelling,
 whether summer and winter badge designs should be unified, final logo masters,
-production domain, and hosting destination. No backend or quote form is included.
+any future custom domain. The supplied live deployment is now known to be
+`https://kubes-yard-maintenance.netlify.app`; this is the canonical origin for
+Milestone 1.5. No backend or quote form is included. “Request a quote” leads to
+the contact page's real phone and email choices, not a submission or price promise.

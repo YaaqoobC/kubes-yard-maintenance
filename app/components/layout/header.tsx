@@ -1,12 +1,18 @@
 import { useRef, useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import { business, navigation } from '../../content/business';
 import { ThemeControl } from '../../theme/theme-control';
 import { Brand } from './brand';
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const { key } = useLocation();
+  const [menu, setMenu] = useState({ locationKey: key, open: false });
   const menuButton = useRef<HTMLButtonElement>(null);
+  // Reset before rendering a new history entry, including brand links and Back.
+  if (menu.locationKey !== key) setMenu({ locationKey: key, open: false });
+  const open = menu.locationKey === key && menu.open;
+  const setOpen = (value: boolean) =>
+    setMenu({ locationKey: key, open: value });
 
   return (
     <header
@@ -32,12 +38,15 @@ export function Header() {
         </button>
         <nav
           id="primary-navigation"
-          onClick={() => setOpen(false)}
           aria-label="Main navigation"
           className={`main-nav ${open ? 'is-open' : ''}`}
         >
           {navigation.map((item) => (
-            <NavLink key={item.href} to={item.href}>
+            <NavLink
+              key={item.href}
+              to={item.href}
+              onClick={() => setOpen(false)}
+            >
               {item.label}
             </NavLink>
           ))}
@@ -45,7 +54,7 @@ export function Header() {
         <div className="header-tools">
           <ThemeControl />
           <a className="header-call" href={business.phoneHref}>
-            Let’s talk <span aria-hidden="true">↗</span>
+            Call us <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>

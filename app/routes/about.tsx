@@ -3,7 +3,12 @@ import { pageMeta } from '../content/pages';
 import { ContactCta } from '../components/layout/contact-cta';
 import { ActionLink } from '../components/ui/action-link';
 
-export const meta = () => pageMeta('About Kube’s', business.description);
+export const meta = () =>
+  pageMeta(
+    'About Kube’s',
+    'Learn about Kube’s Yard Maintenance and its lawn care and snow removal services for the Edmonton area. Contact us to confirm service at your address.',
+    '/about',
+  );
 export default function About() {
   return (
     <>
@@ -16,13 +21,8 @@ export default function About() {
         </h1>
         <p>{business.description}</p>
         <p>
-          Our services include residential mowing, spring cleanup, aeration,
-          acreage maintenance, and snow removal for driveways, sidewalks, and
-          main entrance steps.
-        </p>
-        <p>
-          {business.areaNote} We’ll discuss your property, the work you need,
-          and current availability and pricing.
+          For lawn or snow service, call or email with your address and what you
+          need. We’ll confirm availability, pricing, and the work included.
         </p>
         <ActionLink href="/contact">Get in touch</ActionLink>
       </section>

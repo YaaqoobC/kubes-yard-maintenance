@@ -7,7 +7,7 @@ export const business = {
   area: 'Edmonton area, Alberta',
   areaNote: 'Contact us to confirm service at your address.',
   description:
-    'Lawn and yard care in the growing season. Snow removal when winter arrives. Yard maintenance for the Edmonton area, with a direct line to Kube’s.',
+    'Kube’s Yard Maintenance offers lawn mowing, spring cleanup, acreage maintenance, and snow removal for the Edmonton area. Contact us to confirm service at your address.',
 } as const;
 
 export const navigation = [
@@ -39,7 +39,7 @@ export const seasons: readonly [Season, Season] = [
   {
     id: 'summer',
     label: 'The growing season',
-    title: 'A little more green.\nA little less to do.',
+    title: 'Lawn & yard care.',
     description:
       'From the first spring cleanup to regular mowing, find the care that fits your yard.',
     href: '/lawn-care',
@@ -55,7 +55,7 @@ export const seasons: readonly [Season, Season] = [
   {
     id: 'winter',
     label: 'The snowy season',
-    title: 'Winter happens.\nMake room for life.',
+    title: 'Snow removal.',
     description:
       'Snow removal for your driveway, sidewalk, and main entrance steps. Ask about seasonal or call-out service.',
     href: '/snow-removal',

@@ -21,14 +21,14 @@ export function ServiceOverview({ season }: { season: Season }) {
           Contact us for current pricing, availability, and service at your
           address.
         </p>
-        <ActionLink href="/contact">Discuss your property</ActionLink>
+        <ActionLink href="/contact">Request a quote</ActionLink>
       </div>
       <div className={`overview-art overview-art--${season.id}`}>
         <img
           src={season.logo}
           alt={`Kube’s ${season.id === 'summer' ? 'lawn care' : 'snow removal'} emblem`}
-          width={season.id === 'summer' ? 255 : 320}
-          height={season.id === 'summer' ? 245 : 340}
+          width={season.id === 'summer' ? 263 : 322}
+          height={season.id === 'summer' ? 246 : 344}
         />
       </div>
     </section>

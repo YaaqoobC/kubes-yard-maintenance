@@ -1,6 +1,7 @@
 import type { Config } from '@react-router/dev/config';
+import site from './app/content/site.json' with { type: 'json' };
 
 export default {
   ssr: false,
-  prerender: ['/', '/lawn-care', '/snow-removal', '/about', '/contact'],
+  prerender: [...site.publicPaths, '/404'],
 } satisfies Config;

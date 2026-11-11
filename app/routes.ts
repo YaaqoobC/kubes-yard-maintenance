@@ -6,4 +6,5 @@ export default [
   route('snow-removal', 'routes/snow-removal.tsx'),
   route('about', 'routes/about.tsx'),
   route('contact', 'routes/contact.tsx'),
+  route('*', 'routes/not-found.tsx'),
 ] satisfies RouteConfig;

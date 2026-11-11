@@ -43,6 +43,8 @@
   --text-display: clamp(3.1rem, 6.1vw, 6rem);
   --text-heading: clamp(2rem, 3.5vw, 3.25rem);
   --text-body: 1rem;
+  --text-caption: 0.75rem;
+  --text-brand-detail: 0.625rem;
   --duration: 180ms;
 }
 
@@ -157,7 +159,7 @@
 }
 .eyebrow,
 .small-label {
-  font-size: 0.7rem;
+  font-size: var(--text-caption);
   font-weight: 600;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -261,7 +263,7 @@
 .brand span span {
   display: block;
   margin-top: 0.3rem;
-  font-size: 0.65rem;
+  font-size: var(--text-brand-detail);
   letter-spacing: 0.025em;
 }
 .main-nav {
@@ -327,7 +329,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.64rem;
+  font-size: var(--text-caption);
   margin-bottom: 2rem;
 }
 .status-dot {
@@ -370,7 +372,7 @@
   margin-top: 3rem;
   padding-top: 1.2rem;
   border-top: 1px solid var(--border-default);
-  font-size: 0.73rem;
+  font-size: var(--text-caption);
   color: var(--text-secondary);
 }
 .hero-art {
@@ -385,9 +387,10 @@
 }
 .plate-top {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
-  font-size: 0.56rem;
+  font-size: var(--text-caption);
   font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -396,10 +399,12 @@
 }
 .hero-logo {
   width: 66%;
+  max-width: 263px;
   margin: 2.4rem auto 2rem;
 }
 .plate-bottom {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: end;
   gap: 1rem;
@@ -412,7 +417,7 @@
   letter-spacing: -0.05em;
 }
 .plate-bottom .small-label {
-  font-size: 0.53rem;
+  font-size: var(--text-caption);
   padding-bottom: 0.25rem;
 }
 .lawn-lines {
@@ -451,7 +456,7 @@
 }
 .winter-strip .small-label {
   display: block;
-  font-size: 0.53rem;
+  font-size: var(--text-caption);
   margin-bottom: 0.3rem;
 }
 .winter-strip strong {
@@ -504,7 +509,7 @@
 }
 .season-panel .eyebrow {
   margin: 0;
-  font-size: 0.62rem;
+  font-size: var(--text-caption);
 }
 .season-symbol {
   font-size: 1.8rem;
@@ -532,7 +537,7 @@
   gap: 0.7rem 1rem;
 }
 .season-panel li {
-  font-size: 0.72rem;
+  font-size: var(--text-caption);
   border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
   padding-top: 0.65rem;
 }
@@ -563,12 +568,12 @@
   padding-block: 1.7rem 2rem;
 }
 .service-number {
-  font-size: 0.67rem;
+  font-size: var(--text-caption);
   color: var(--text-accent);
   padding-top: 0.15rem;
 }
 .service-row .small-label {
-  font-size: 0.56rem;
+  font-size: var(--text-caption);
   margin-bottom: 0.8rem;
   color: var(--text-secondary);
 }
@@ -584,7 +589,7 @@
 }
 .pricing-note {
   border-top: 1px solid var(--border-default);
-  font-size: 0.72rem;
+  font-size: var(--text-caption);
   color: var(--text-secondary);
   padding-top: 1rem;
 }
@@ -600,7 +605,7 @@
 }
 .introduction .eyebrow {
   max-width: 190px;
-  font-size: 0.62rem;
+  font-size: var(--text-caption);
 }
 .introduction h2 {
   font-size: clamp(1.9rem, 3.1vw, 3rem);
@@ -637,7 +642,7 @@
 }
 .contact-cta .eyebrow {
   color: var(--text-inverse-muted);
-  font-size: 0.62rem;
+  font-size: var(--text-caption);
 }
 .contact-cta h2 {
   font-size: clamp(2rem, 3.6vw, 3.4rem);
@@ -657,7 +662,7 @@
 }
 .contact-actions > p {
   color: var(--text-inverse-muted);
-  font-size: 0.7rem;
+  font-size: var(--text-caption);
 }
 .site-footer {
   padding-top: 3.5rem;
@@ -695,7 +700,7 @@
 }
 .footer-contact .eyebrow {
   margin-bottom: 0.7rem;
-  font-size: 0.59rem;
+  font-size: var(--text-caption);
 }
 .footer-contact a {
   padding-block: 0.25rem;
@@ -703,7 +708,7 @@
 .footer-contact p {
   margin-top: 0.7rem;
   color: var(--text-secondary);
-  font-size: 0.69rem;
+  font-size: var(--text-caption);
   max-width: 230px;
 }
 .footer-bottom {
@@ -712,7 +717,7 @@
   gap: 1rem;
   padding-block: 1.3rem;
   border-top: 1px solid var(--border-default);
-  font-size: 0.63rem;
+  font-size: var(--text-caption);
   color: var(--text-secondary);
 }
 .page-intro {
@@ -754,6 +759,8 @@
 }
 .overview-art img {
   margin-inline: auto;
+  width: auto;
+  max-height: 246px;
 }
 .overview-art--winter {
   background: var(--art-winter);
@@ -829,7 +836,7 @@
     font-size: 1.45rem;
   }
   .brand span span {
-    font-size: 0.59rem;
+    font-size: var(--text-brand-detail);
   }
   .header-tools {
     margin-left: auto;
@@ -878,7 +885,7 @@
     font-size: clamp(2.7rem, 6.3vw, 4rem);
   }
   .hero .eyebrow {
-    font-size: 0.56rem;
+    font-size: var(--text-caption);
     letter-spacing: 0.05em;
   }
   .hero-description {
@@ -892,13 +899,13 @@
   }
   .hero-footnote {
     margin-top: 2rem;
-    font-size: 0.64rem;
+    font-size: var(--text-caption);
   }
   .brand-plate {
     padding: 1rem 1rem 0;
   }
   .plate-top {
-    font-size: 0.45rem;
+    font-size: var(--text-caption);
   }
   .plate-top span:last-child {
     display: none;
@@ -913,7 +920,7 @@
     gap: 0.25rem;
   }
   .plate-bottom .small-label {
-    font-size: 0.48rem;
+    font-size: var(--text-caption);
   }
   .lawn-lines {
     margin-inline: -1rem;
@@ -927,10 +934,10 @@
     height: 40px;
   }
   .winter-strip strong {
-    font-size: 0.65rem;
+    font-size: var(--text-caption);
   }
   .winter-strip .small-label {
-    font-size: 0.43rem;
+    font-size: var(--text-caption);
   }
   .winter-strip .arrow {
     width: 15px;
@@ -956,7 +963,7 @@
     font-size: 0.85rem;
   }
   .season-panel .action-link {
-    font-size: 0.72rem;
+    font-size: var(--text-caption);
     gap: 0.8rem;
   }
   .selected-services {
@@ -990,7 +997,7 @@
   }
   .header-inner {
     min-height: 84px;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
   .brand {
     gap: 0.45rem;
@@ -1003,7 +1010,7 @@
     font-size: 1.35rem;
   }
   .brand span span {
-    font-size: 0.5rem;
+    font-size: var(--text-brand-detail);
   }
   .theme-control {
     gap: 0.05rem;
@@ -1013,11 +1020,11 @@
   }
   .theme-control select {
     width: 63px;
-    font-size: 0.66rem;
+    font-size: var(--text-caption);
     padding: 0;
   }
   .menu-toggle {
-    font-size: 0.69rem;
+    font-size: var(--text-caption);
     gap: 0.5rem;
     padding-inline: 0.5rem;
   }
@@ -1031,7 +1038,7 @@
   }
   .hero .eyebrow {
     margin-bottom: 1.6rem;
-    font-size: 0.55rem;
+    font-size: var(--text-caption);
     letter-spacing: 0.045em;
   }
   .hero-description {
@@ -1063,7 +1070,7 @@
     padding: 1rem 1.2rem 0;
   }
   .plate-top {
-    font-size: 0.5rem;
+    font-size: var(--text-caption);
   }
   .plate-top span:last-child {
     display: block;
@@ -1095,13 +1102,13 @@
     font-size: 0.78rem;
   }
   .winter-strip .small-label {
-    font-size: 0.48rem;
+    font-size: var(--text-caption);
   }
   .winter-strip .arrow {
     width: 20px;
   }
   .eyebrow {
-    font-size: 0.6rem;
+    font-size: var(--text-caption);
     margin-bottom: 1rem;
   }
   .section-heading {
@@ -1136,7 +1143,7 @@
     grid-template-columns: 1fr 1fr;
   }
   .season-panel li {
-    font-size: 0.66rem;
+    font-size: var(--text-caption);
   }
   .season-panel .action-link {
     font-size: 0.76rem;
@@ -1202,27 +1209,27 @@
     font-size: 1.6rem;
   }
   .footer-main .brand span span {
-    font-size: 0.63rem;
+    font-size: var(--text-brand-detail);
   }
   .footer-main > div:first-child > p {
     margin-top: 1rem;
   }
   .footer-main nav a {
-    font-size: 0.73rem;
+    font-size: var(--text-caption);
   }
   .footer-contact {
-    font-size: 0.72rem;
+    font-size: var(--text-caption);
     overflow-wrap: anywhere;
   }
   .footer-contact .eyebrow {
-    font-size: 0.55rem;
+    font-size: var(--text-caption);
   }
   .footer-contact p {
-    font-size: 0.64rem;
+    font-size: var(--text-caption);
   }
   .footer-bottom {
     flex-wrap: wrap;
-    font-size: 0.59rem;
+    font-size: var(--text-caption);
     gap: 0.8rem 1rem;
   }
   .footer-bottom > span:nth-child(2) {
@@ -1239,7 +1246,7 @@
     gap: 2rem;
   }
   .overview-art {
-    max-width: 300px;
+    max-width: 260px;
     width: 100%;
     margin-inline: auto;
   }
@@ -1255,6 +1262,17 @@
     font-size: 1.6rem;
   }
 }
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.not-found-links > a:not(.action-link) {
+  text-decoration: underline;
+  padding-block: 0.75rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

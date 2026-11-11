@@ -7,6 +7,7 @@ export const meta = () =>
   pageMeta(
     'Lawn & yard care',
     'Explore lawn mowing, spring cleanup, aeration, and acreage maintenance in the Edmonton area. Contact Kube’s for current pricing.',
+    '/lawn-care',
   );
 export default function LawnCare() {
   return (

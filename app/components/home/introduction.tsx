@@ -1,4 +1,3 @@
-import { business } from '../../content/business';
 import { ActionLink } from '../ui/action-link';
 
 export function Introduction() {
@@ -14,8 +13,9 @@ export function Introduction() {
           </h2>
           <div className="intro-detail">
             <p>
-              {business.description} Have a question about your property? Call
-              or email us directly.
+              Call or email Kube’s directly with your address and the work you
+              need. We’ll discuss service availability, what’s included, and
+              current pricing before you arrange service.
             </p>
             <ActionLink href="/about" variant="text">
               A little about Kube’s

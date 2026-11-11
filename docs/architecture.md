@@ -31,19 +31,32 @@ pamphlet-content.md           Source transcription and provenance
 `/lawn-care`, `/snow-removal`, `/about`, and `/contact`. React Router renders HTML
 at build time, then hydrates for client navigation. No production runtime server,
 database, actions, or form backend is needed. Each route has its own title and
-description. No canonical domain, sitemap origin, or address is invented.
+description. `app/content/site.json` centralizes the user-supplied public origin
+(`https://kubes-yard-maintenance.netlify.app`) and public paths. Metadata emits
+route-specific canonicals and Open Graph URLs; the post-build script uses the
+same data for `sitemap.xml` and `robots.txt`. No street address is invented.
 
 Publish **only `build/client/`**. Public routes contain meaningful `index.html`
 documents. Configure the static host to resolve clean paths to directory index
-files (or explicit rewrites for these five routes). Serve existing files first;
-for optional client routing fallback use React Router's `__spa-fallback.html`,
-not the homepage. If supported, map unknown URLs to that fallback with HTTP 404;
-the client shows the error boundary. The host controls HTTP status for unknown
-paths. Test direct visits and reloads on all routes on the selected host.
+files (or explicit rewrites for these five routes). Serve existing files first. A wildcard route provides the branded not-found screen during
+client navigation and is pre-rendered at `/404`. `scripts/finalize-static.mjs`
+copies its HTML to `404.html`, which Netlify serves automatically with status 404
+for unknown URLs. The screen includes real recovery links and `noindex, follow`;
+it is excluded from the sitemap. Do not add a blanket 200 rewrite to the homepage.
+Other static hosts must be configured to serve `404.html` with a 404 status.
+React Router's `__spa-fallback.html` is still emitted but is not the Netlify error
+document. Test direct visits and reloads after deployment.
+
+`netlify.toml` declares the static build command, `build/client` publish directory,
+and Node 24. `public/_headers` sets immutable year-long caching only for hashed
+files under `/assets/`. Logos and documents keep normal revalidation behavior.
+These configurations are prepared locally; Milestone 1.5 does not publish them.
 
 Vite preview serves the static build for QA, not as a production runtime. Its
 separate `vite.preview.config.ts` uses `appType: mpa` so clean paths resolve to
 their actual pre-rendered documents instead of Vite's default SPA home fallback.
+Its preview middleware also serves the generated 404 document for unknown page
+requests with status 404, allowing direct static error-page verification.
 React Router emits an intermediate server build during pre-rendering; it is not
 a deployment artifact. There is no loader or external data dependency.
 
@@ -74,11 +87,21 @@ Official references consulted during setup:
 - Browser tests use Playwright and axe against the actual static production build.
   Chromium can use local Google Chrome via `PLAYWRIGHT_CHANNEL=chrome`; otherwise
   install Playwright Chromium. Automated checks supplement manual review, not certify WCAG.
+- `RouteFocus` restores keyboard context to main after pathname changes. Header
+  menu state is reset during rendering when the router history key changes, keeping
+  theme controls mounted and avoiding a stale expanded menu on Back or logo navigation.
+- `scripts/audit-site.mjs` captures the 50-case responsive/axe matrix and 20
+  desktop/mobile screenshots. Generated evidence is ignored under `artifacts/`;
+  the findings and commands are retained in `docs/milestone-1.5-audit.md`.
 
 ## Milestone 2
 
 Review visual direction with the owner, confirm rates, snow thresholds/response
 policy, insurance/ownership wording, service boundaries, and original photograph
-provenance. Expand service pages and About using approved details. Confirm a
-production domain and static host, then add domain-specific SEO and deployment
-configuration. A hosted contact form is a separate future scope decision.
+provenance. Expand service pages and About using approved details. Confirm
+any future custom domain before replacing the current Netlify origin. Domain
+changes must update canonical and crawler output together. A hosted contact form
+is a separate future scope decision. Keep service-page expansion for Milestone 2.
+
+Hosting references: [Netlify custom 404 handling](https://docs.netlify.com/manage/routing/redirects/redirect-options/#custom-404-page-handling),
+[Netlify custom headers](https://docs.netlify.com/manage/routing/headers/).

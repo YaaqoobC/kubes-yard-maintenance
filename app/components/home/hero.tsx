@@ -19,19 +19,17 @@ export function Hero() {
           <span>Every season.</span>
         </h1>
         <p className="hero-description">
-          A fresh-cut lawn. A cleared driveway. A little more time for
-          everything else. Meet Kube’s Yard Maintenance.
+          Lawn mowing, seasonal yard cleanup, and snow removal in the Edmonton
+          area. Contact Kube’s to discuss your property and request a quote.
         </p>
         <div className="hero-actions">
-          <ActionLink href={business.phoneHref}>
-            Let’s talk yard care
-          </ActionLink>
+          <ActionLink href="/contact">Request a quote</ActionLink>
           <ActionLink href="#seasons" variant="text">
             Find your service
           </ActionLink>
         </div>
         <div className="hero-footnote">
-          <span>Local care. Through the seasons.</span>
+          <span>{business.areaNote}</span>
           <span aria-hidden="true">↓</span>
         </div>
       </div>
@@ -45,8 +43,8 @@ export function Hero() {
             className="hero-logo"
             src="/brand/summer-logo.png"
             alt="Kube’s original lawn mower and tree emblem"
-            width="255"
-            height="245"
+            width="263"
+            height="246"
             fetchPriority="high"
           />
           <div className="plate-bottom">
@@ -66,8 +64,8 @@ export function Hero() {
         <Link className="winter-strip" to="/snow-removal">
           <img src="/brand/winter-logo.png" width="64" height="68" alt="" />
           <span>
-            <span className="small-label">And when the snow comes</span>
-            <strong>We’re here for winter, too.</strong>
+            <span className="small-label">The winter season</span>
+            <strong>Explore snow removal</strong>
           </span>
           <Arrow diagonal />
         </Link>

@@ -6,6 +6,7 @@ export const meta = () =>
   pageMeta(
     'Contact',
     `Call ${business.phone} or email ${business.email} to discuss lawn care or snow removal in the Edmonton area.`,
+    '/contact',
   );
 export default function Contact() {
   return (

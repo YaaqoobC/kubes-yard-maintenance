@@ -1,6 +1,6 @@
 # Kube’s Yard Maintenance
 
-Milestone 1: a responsive, pre-rendered React homepage and shared layout, with
+Milestone 1.5: a responsive, pre-rendered React homepage and shared layout, with
 useful initial lawn care, snow removal, About, and Contact pages. Static hosting
 only; no runtime server or contact-form backend.
 
@@ -53,8 +53,15 @@ Deploy **`build/client/`** to static hosting. Enable clean URLs/directory indexe
 for `/lawn-care`, `/snow-removal`, `/about`, and `/contact`. Each route has an HTML
 document for direct requests. Preserve hashed asset filenames. If the host needs
 a client fallback, use `__spa-fallback.html` after existing files, not the home
-document. Unknown URL status codes depend on the host. No production deployment
-is configured in Milestone 1; review locally first.
+document. The build also generates `404.html`, `sitemap.xml`, and `robots.txt`.
+Netlify automatically serves `404.html` for missing pages with HTTP 404.
+`netlify.toml` sets the build command, static publish directory, and Node version;
+`public/_headers` caches only hashed assets immutably. No server function is needed.
+On another host, configure the same directory-index and 404 behavior.
+
+The canonical origin is `https://kubes-yard-maintenance.netlify.app`. Update
+`app/content/site.json` when an approved custom domain is introduced, then rebuild
+to update metadata and crawler files together. No publish is performed by these commands.
 
 ## Developer guidance
 
@@ -69,6 +76,22 @@ to `public/brand`. Sync them with `node scripts/sync-brand.mjs`. Swap the suppli
 files and sync them without restructuring sections.
 All visible headings and business names are HTML. No stock or AI imagery is used.
 
-Stop point: Milestone 1. Confirm visual direction, actual service boundaries,
+Stop point: Milestone 1.5. Confirm visual direction, actual service boundaries,
 rates/policies, claims, and photography before expanding the remaining pages in
 Milestone 2. See the content inventory for outstanding owner inputs.
+
+## Milestone 1.5 review
+
+See [audit and results](docs/milestone-1.5-audit.md). To reproduce screenshots and
+the 50-case viewport/theme/axe audit, build the site, run `npm run preview --
+--port 4174`, then in another terminal:
+
+```sh
+PLAYWRIGHT_CHANNEL=chrome node scripts/audit-site.mjs http://127.0.0.1:4174 artifacts/milestone-1.5/review
+```
+
+Omit `PLAYWRIGHT_CHANNEL=chrome` to use installed Playwright Chromium. Generated
+screenshots and JSON stay in ignored `artifacts/`; no captures enter public assets.
+The audit captures evidence and reports findings; `npm run check` supplies the
+asserting regression suite. Actual production hosting status must be rechecked
+after the owner deploys the build.

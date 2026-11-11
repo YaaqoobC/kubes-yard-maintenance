@@ -10,6 +10,7 @@ export const meta = () =>
   pageMeta(
     'Lawn care & snow removal in the Edmonton area',
     business.description,
+    '/',
   );
 
 export default function Home() {
